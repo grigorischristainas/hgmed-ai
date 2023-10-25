@@ -1,1 +1,1 @@
-export {default} from './PaperCardContainer'
+export { default } from './PaperCardContainer'
