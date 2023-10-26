@@ -7,4 +7,5 @@ export const StyledRootContainer = styled('div')({
     flexDirection: 'column',
     padding: 10,
     height: '100%',
+    gap: 10,
 })
