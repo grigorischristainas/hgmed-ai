@@ -15,14 +15,11 @@ describe('SearchBox: Test that component', () => {
         const handleSearch = jest.fn()
         render(<SearchBox handleSearch={handleSearch} />)
 
-        fireEvent.change(
-            screen.getByPlaceholderText('Try `Physical activity`...'),
-            {
-                target: { value: 'Physical activity' },
-            }
-        )
+        fireEvent.change(screen.getByPlaceholderText('Try `Paracetamol`...'), {
+            target: { value: 'Paracetamol' },
+        })
 
         fireEvent.click(screen.getByTestId('search-button'))
-        expect(handleSearch).toHaveBeenCalledWith('Physical activity')
+        expect(handleSearch).toHaveBeenCalledWith('Paracetamol')
     })
 })

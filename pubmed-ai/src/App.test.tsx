@@ -7,7 +7,7 @@ describe('App: Test that component', () => {
         render(<App />)
 
         expect(
-            screen.getByText('Your personal AI PubMED Assistant')
+            screen.getByText('Your personal AI PubMed Assistant')
         ).toBeInTheDocument()
         expect(screen.getByTestId('input-search')).toBeInTheDocument()
         expect(screen.getByTestId('search-button')).toBeInTheDocument()
