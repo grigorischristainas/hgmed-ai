@@ -4,7 +4,7 @@ import { StyledTitle } from './TitleStyles'
 const Title = () => {
     return (
         <StyledTitle variant="h3" gutterBottom>
-            Your personal AI PubMED Assistant
+            Your personal AI PubMed Assistant
         </StyledTitle>
     )
 }

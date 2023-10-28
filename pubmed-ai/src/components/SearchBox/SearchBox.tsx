@@ -36,7 +36,7 @@ const SearchBox = ({ handleSearch }: SearchBoxProps) => {
                     ),
                 }}
                 variant="outlined"
-                placeholder="Try `Physical activity`..."
+                placeholder="Try `Paracetamol`..."
             />
             <StyledButtonContainer>
                 <StyledButton
