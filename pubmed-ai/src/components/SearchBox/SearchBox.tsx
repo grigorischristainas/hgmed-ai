@@ -23,6 +23,13 @@ const SearchBox = ({ handleSearch }: SearchBoxProps) => {
         handleSearch(inputText)
     }, [inputText, handleSearch])
 
+    // Clear results upon textbox input clear
+    React.useEffect(() => {
+        if (!inputText) {
+            handleSearch('')
+        }
+    })
+
     return (
         <StyledRootContainer>
             <StyledTextField

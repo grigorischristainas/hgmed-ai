@@ -1,7 +1,8 @@
 import React from 'react'
+import { PaperCardContainerProps } from './types'
 
-const PaperCardContainer = () => {
-    return <div>PaperCardContainer is rendered</div>
+const PaperCardContainer = ({ keyword }: PaperCardContainerProps) => {
+    return <div>Search results for {keyword}</div>
 }
 
 export default React.memo(PaperCardContainer)

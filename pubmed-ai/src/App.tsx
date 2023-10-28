@@ -4,22 +4,17 @@ import Title from './components/Title'
 import SearchBox from './components/SearchBox'
 import { StyledRootContainer } from './AppStyles'
 import Description from './components/Description'
-import { SearchBoxProps } from './components/SearchBox/types'
+import useSearchKeyword from './hooks/useSearchKeyword'
 
 function App() {
-    const handleSearch = React.useCallback<SearchBoxProps['handleSearch']>(
-        (keyword) => {
-            console.log('Search: ', keyword)
-        },
-        []
-    )
+    const { handleSearch, searchKeyword } = useSearchKeyword()
 
     return (
         <StyledRootContainer>
             <Title />
             <Description />
             <SearchBox handleSearch={handleSearch} />
-            <PaperCardContainer />
+            {searchKeyword && <PaperCardContainer keyword={searchKeyword} />}
         </StyledRootContainer>
     )
 }
