@@ -57,4 +57,7 @@ export const StyledInfoIconContainer = styled('div')({
 export const StyledInfoIcon = styled(InfoIcon)({
     color: '#444444',
     width: 20,
+    '&:hover': {
+        cursor: 'pointer',
+    },
 })
