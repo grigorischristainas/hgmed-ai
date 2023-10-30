@@ -1,7 +1,19 @@
 import React from 'react'
 import CardContent from '@mui/material/CardContent'
-import { StyledCard } from './PaperCardStyles'
+import {
+    StyledCard,
+    StyledTitle,
+    StyledSectionContainer,
+    StyledSummaryContainer,
+    StyledDiseaseIcon,
+    StyledInterventionIcon,
+    StyledEffectivenessIcon,
+    StyledInfoIcon,
+    StyledInfoIconContainer,
+    StyledContentContainer,
+} from './PaperCardStyles'
 import { PaperCardProps } from './types'
+import DescriptionIcon from '@mui/icons-material/Description'
 
 export const PaperCard = ({ pubMedResult }: PaperCardProps) => {
     const {
@@ -12,10 +24,32 @@ export const PaperCard = ({ pubMedResult }: PaperCardProps) => {
     return (
         <StyledCard>
             <CardContent>
-                <div>{title}</div>
-                <div>{disease}</div>
-                <div>{intervention}</div>
-                <div>{effectiveness}</div>
+                <StyledSectionContainer>
+                    <DescriptionIcon />
+                    <StyledTitle variant="body1">{title}</StyledTitle>
+                </StyledSectionContainer>
+
+                <StyledContentContainer>
+                    <StyledSummaryContainer>
+                        <StyledSectionContainer>
+                            <StyledDiseaseIcon />
+                            <div>{disease}</div>
+                        </StyledSectionContainer>
+
+                        <StyledSectionContainer>
+                            <StyledInterventionIcon />
+                            <div>{intervention}</div>
+                        </StyledSectionContainer>
+
+                        <StyledSectionContainer>
+                            <StyledEffectivenessIcon />
+                            <div>{effectiveness}</div>
+                        </StyledSectionContainer>
+                    </StyledSummaryContainer>
+                    <StyledInfoIconContainer>
+                        <StyledInfoIcon />
+                    </StyledInfoIconContainer>
+                </StyledContentContainer>
             </CardContent>
         </StyledCard>
     )
