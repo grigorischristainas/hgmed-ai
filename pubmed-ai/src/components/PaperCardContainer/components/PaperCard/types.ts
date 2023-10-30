@@ -1,12 +1,5 @@
-export type PaperSummary = {
-    intervention: string
-    disease: string
-    effectiveness: string
-}
+import { PubMedResult } from '../../hooks/usePubMedResults'
 
 export type PaperCardProps = {
-    id: number
-    title: string
-    abstract: string
-    summary: PaperSummary
+    pubMedResult: PubMedResult
 }
