@@ -5,4 +5,5 @@ export const StyledCard = styled(Card)({
     width: '100%',
     maxWidth: '800px',
     minHeight: '200px',
+    boxShadow: 'rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;',
 })
