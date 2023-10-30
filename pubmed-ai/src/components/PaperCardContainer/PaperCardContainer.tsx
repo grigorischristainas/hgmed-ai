@@ -2,12 +2,13 @@ import React from 'react'
 import { PaperCardContainerProps } from './types'
 import { StyledRootContainer } from './PaperCardContainerStyles'
 import PaperCard from './components/PaperCard'
-import { dummyResults } from './consts'
+import usePubMedResults from './hooks/usePubMedResults'
 
 const PaperCardContainer = ({ keyword }: PaperCardContainerProps) => {
+    const { pubMedResults } = usePubMedResults({ keyword })
     return (
         <StyledRootContainer>
-            {dummyResults.map((result) => (
+            {pubMedResults.map((result) => (
                 <PaperCard />
             ))}
         </StyledRootContainer>
