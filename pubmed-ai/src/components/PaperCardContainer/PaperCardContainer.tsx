@@ -9,7 +9,7 @@ const PaperCardContainer = ({ keyword }: PaperCardContainerProps) => {
     return (
         <StyledRootContainer>
             {pubMedResults.map((result) => (
-                <PaperCard />
+                <PaperCard pubMedResult={result} />
             ))}
         </StyledRootContainer>
     )
