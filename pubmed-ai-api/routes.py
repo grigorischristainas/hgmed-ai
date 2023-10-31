@@ -1,5 +1,6 @@
 from flask import request, jsonify
 from config import app, chatbot, pubmed
+import sys
 
 
 @app.route('/studies/rct', methods=['POST'])
@@ -18,10 +19,22 @@ def get_papers():
             # Extract and format information from the article
             title = article.title.encode('utf-8')
             abstract = article.abstract.encode('utf-8')
+            publication_date = article.publication_date
+            authors = article.authors
+
+            author_names_only = []
+
+            for author in authors:
+                author_first_name = author['firstname']
+                author_last_name = author['lastname']
+                author_name = author_first_name + ' ' + author_last_name
+                author_names_only.append(author_name)
 
             response_data = {
                 "title": str(title.decode('utf-8').replace('\n', '')),
-                "abstract": str(abstract.decode('utf-8').replace('\n', ''))
+                "abstract": str(abstract.decode('utf-8').replace('\n', '')),
+                "publication_date": publication_date.strftime('%d/%m/%Y'),
+                "authors": author_names_only
             }
 
             # Append to results array
