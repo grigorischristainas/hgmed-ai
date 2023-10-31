@@ -17,8 +17,8 @@ def get_papers():
 
         for article in results:
             # Extract and format information from the article
-            title = article.title.encode('utf-8')
-            abstract = article.abstract.encode('utf-8')
+            title = article.title
+            abstract = article.abstract
             publication_date = article.publication_date
             authors = article.authors
 
@@ -31,8 +31,8 @@ def get_papers():
                 author_names_only.append(author_name)
 
             response_data = {
-                "title": str(title.decode('utf-8').replace('\n', '')),
-                "abstract": str(abstract.decode('utf-8').replace('\n', '')),
+                "title": title.replace('\n', ''),
+                "abstract": abstract.replace('\n', ''),
                 "publication_date": publication_date.strftime('%d/%m/%Y'),
                 "authors": author_names_only
             }
