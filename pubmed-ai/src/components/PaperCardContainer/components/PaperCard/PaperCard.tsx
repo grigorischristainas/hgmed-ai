@@ -16,13 +16,14 @@ import { PaperCardProps } from './types'
 import DescriptionIcon from '@mui/icons-material/Description'
 import CardDialog from './components/CardDialog'
 import useDialog from './hooks/useDialog'
+import useSummary from './hooks/useSummary'
 
 export const PaperCard = ({ pubMedResult }: PaperCardProps) => {
+    const { title, abstract } = pubMedResult
+
     const {
-        title,
-        summary: { disease, effectiveness, intervention },
-        abstract,
-    } = pubMedResult
+        paperSummary: { disease, effectiveness, intervention },
+    } = useSummary({ title, abstract })
 
     const { dialogOpen, handleDialogClose, handleInfoIconClick } = useDialog()
 
