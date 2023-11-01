@@ -5,7 +5,14 @@ export const StyledRootContainer = styled('div')({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'column',
-    padding: 10,
-    height: '100%',
+    minHeight: '100vh',
     gap: 10,
+})
+
+export const StyledContent = styled('div')({
+    padding: 30,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
 })
