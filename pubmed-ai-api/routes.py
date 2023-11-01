@@ -1,6 +1,5 @@
 from flask import request, jsonify
 from config import app, chatbot, pubmed
-import sys
 
 
 @app.route('/studies/rct', methods=['POST'])
@@ -41,10 +40,17 @@ def get_papers():
             json_results.append(response_data)
 
         # Use jsonify to convert the list into a JSON response
-        return jsonify(json_results)
+        return jsonify({
+            "status": "OK",
+            "message": "Request was successful",
+            "_items": json_results
+        })
 
     except Exception as e:
-        return jsonify({'error': str(e)})
+        return jsonify({
+            "status": "ERR",
+            "message": str(e)
+        })
 
 
 @app.route('/ai/huggingchat/generate', methods=['POST'])
@@ -55,11 +61,29 @@ def get_huggingchat_summary():
         baseQuery = 'Please identify very briefly for the following research the intervention ' \
             '(or comparison of interventions), the disease and the effectiveness of the intervention. ' \
             'Respond only in the following format with no extra text: ' \
-            'SUMMARY: <intervention (or comparison of interventions)> / <disease> / <effectiveness of the intervention>:'
+            '# <intervention (or comparison of interventions)> / <disease> / <effectiveness of the intervention>:'
 
         query_result = chatbot.query(baseQuery + prompt)
 
+        split_query = str(query_result).split("#")[1].split('/')
+        intervention = split_query[0].strip()
+        disease = split_query[1].strip()
+        effectiveness = split_query[2].strip()
+
         # Use jsonify to format JSON response
-        return jsonify({'summary': str(query_result)})
+        return jsonify({
+            "status": "OK",
+            "message": "Request was successful",
+            "_items": [
+                {
+                    "intervention": intervention,
+                    "disease": disease,
+                    "effectiveness": effectiveness
+                }
+            ],
+        })
     except Exception as e:
-        return jsonify({'error': str(e)})
+        return jsonify({
+            "status": "ERR",
+            "message": str(e)
+        })
