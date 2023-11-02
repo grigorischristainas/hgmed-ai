@@ -12,6 +12,8 @@ export const dummyResults = [
             effectiveness:
                 'More effective than One-Level ESPB in providing adequate analgesia in the early postoperative period with similar morphine consumption and side effects.',
         },
+        publicationDate: '29/09/2023',
+        authors: ['lorem ipsum'],
     },
     {
         id: 2,
@@ -25,5 +27,7 @@ export const dummyResults = [
             effectiveness:
                 'Both effective in reducing pain scores and opioid requirements compared to placebo, with similar efficacy.',
         },
+        publicationDate: '29/09/2023',
+        authors: ['lorem ipsum'],
     },
 ]

@@ -1,24 +1,30 @@
-import { dummyResults } from '../consts'
-import { PaperCardContainerProps } from '../types'
+import { UseMutationResult, useMutation } from '@tanstack/react-query'
+import fetchPubMedResults, {
+    FetchPubMedResultsProps,
+    FetchPubMedResultsReturn,
+} from '../../../services/fetchPubMedResults'
 
 export type PubMedResult = {
     id: number
     title: string
     abstract: string
+    publicationDate: string
+    authors: string[]
 }
 
-export type UsePubMedResultsProps = Pick<PaperCardContainerProps, 'keyword'>
 export type UsePubMedResultsReturn = {
     pubMedResults: PubMedResult[]
 }
 
-const usePubMedResults = ({
-    keyword,
-}: UsePubMedResultsProps): UsePubMedResultsReturn => {
-    // TODO: Request to back-end API
-
-    const pubMedResults = dummyResults
-    return { pubMedResults }
+const usePubMedResults = (): UseMutationResult<
+    FetchPubMedResultsReturn,
+    Error,
+    FetchPubMedResultsProps,
+    unknown
+> => {
+    return useMutation({
+        mutationFn: fetchPubMedResults,
+    })
 }
 
 export default usePubMedResults

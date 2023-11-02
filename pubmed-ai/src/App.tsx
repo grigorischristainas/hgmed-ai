@@ -5,21 +5,26 @@ import SearchBox from './components/SearchBox'
 import { StyledContent, StyledRootContainer } from './AppStyles'
 import Description from './components/Description'
 import useSearchKeyword from './hooks/useSearchKeyword'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
+const queryClient = new QueryClient()
 
 function App() {
     const { handleSearch, searchKeyword } = useSearchKeyword()
 
     return (
-        <StyledRootContainer>
-            <StyledContent>
-                <Title />
-                <Description />
-                <SearchBox handleSearch={handleSearch} />
-                {searchKeyword && (
-                    <PaperCardContainer keyword={searchKeyword} />
-                )}
-            </StyledContent>
-        </StyledRootContainer>
+        <QueryClientProvider client={queryClient}>
+            <StyledRootContainer>
+                <StyledContent>
+                    <Title />
+                    <Description />
+                    <SearchBox handleSearch={handleSearch} />
+                    {searchKeyword && (
+                        <PaperCardContainer keyword={searchKeyword} />
+                    )}
+                </StyledContent>
+            </StyledRootContainer>
+        </QueryClientProvider>
     )
 }
 

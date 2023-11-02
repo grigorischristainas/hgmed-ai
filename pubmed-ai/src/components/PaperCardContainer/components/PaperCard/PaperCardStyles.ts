@@ -52,6 +52,7 @@ export const StyledInfoIconContainer = styled('div')({
     display: 'flex',
     justifyContent: 'flex-end',
     alignItems: 'end',
+    marginLeft: 'auto',
 })
 
 export const StyledInfoIcon = styled(InfoIcon)({
