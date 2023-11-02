@@ -32,7 +32,7 @@ def get_papers():
             response_data = {
                 "title": title.replace('\n', ''),
                 "abstract": abstract.replace('\n', ''),
-                "publication_date": publication_date.strftime('%d/%m/%Y'),
+                "publicationDate": publication_date.strftime('%d/%m/%Y'),
                 "authors": author_names_only
             }
 

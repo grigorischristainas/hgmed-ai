@@ -4,6 +4,7 @@ from hugchat.login import Login
 from pymed import PubMed
 from dotenv import load_dotenv
 import os
+from flask_cors import CORS
 
 cookie_path_dir = "./cookies_snapshot"
 
@@ -29,3 +30,4 @@ chatbot = hugchat.ChatBot(cookies=cookies.get_dict())
 pubmed = PubMed(tool="MyTool", email=hugging_chat_email)
 
 app = Flask(__name__)
+CORS(app)
