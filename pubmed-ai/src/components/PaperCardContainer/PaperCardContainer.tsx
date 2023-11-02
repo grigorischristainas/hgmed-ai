@@ -20,7 +20,6 @@ const PaperCardContainer = ({ keyword }: PaperCardContainerProps) => {
         return <div>No results found</div>
     }
 
-    console.log('DATA ', data)
     return (
         <StyledRootContainer>
             {data?._items.map((result) => (
