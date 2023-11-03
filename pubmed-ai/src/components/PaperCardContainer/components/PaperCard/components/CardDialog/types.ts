@@ -1,6 +1,7 @@
+import { PubMedResult } from '../../../../hooks/usePubMedResults'
+
 export type CardDialogProps = {
     open: boolean
     handleClose: () => void
     titleContent: JSX.Element
-    abstract: string
-}
+} & Pick<PubMedResult, 'abstract' | 'authors' | 'publicationDate' | 'id'>

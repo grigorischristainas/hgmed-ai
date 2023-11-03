@@ -1,20 +1,13 @@
 import axios from 'axios'
 import { API_URL } from '../config'
-
-type ResponseItems = {
-    id: number
-    title: string
-    abstract: string
-    publicationDate: string
-    authors: string[]
-}
+import { PubMedResult } from '../components/PaperCardContainer/hooks/usePubMedResults'
 
 export type FetchPubMedResultsProps = {
     keyword: string
 }
 
 export type FetchPubMedResultsReturn = {
-    _items: ResponseItems[]
+    _items: PubMedResult[]
     status: string
     message: string
 }

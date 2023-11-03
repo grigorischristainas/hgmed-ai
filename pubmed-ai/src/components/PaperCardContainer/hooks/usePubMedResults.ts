@@ -5,7 +5,7 @@ import fetchPubMedResults, {
 } from '../../../services/fetchPubMedResults'
 
 export type PubMedResult = {
-    id: number
+    id: string
     title: string
     abstract: string
     publicationDate: string

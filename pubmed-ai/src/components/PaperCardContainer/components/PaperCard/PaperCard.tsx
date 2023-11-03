@@ -19,7 +19,7 @@ import useDialog from './hooks/useDialog'
 // import useSummary from './hooks/useSummary'
 
 export const PaperCard = ({ pubMedResult }: PaperCardProps) => {
-    const { title, abstract } = pubMedResult
+    const { title, abstract, authors, id, publicationDate } = pubMedResult
 
     // const {
     //     paperSummary: { disease, effectiveness, intervention },
@@ -69,6 +69,9 @@ export const PaperCard = ({ pubMedResult }: PaperCardProps) => {
                     </StyledSectionContainer>
                 }
                 abstract={abstract}
+                authors={authors}
+                publicationDate={publicationDate}
+                id={id}
             />
         </>
     )
