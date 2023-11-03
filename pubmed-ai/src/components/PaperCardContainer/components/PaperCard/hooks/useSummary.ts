@@ -1,4 +1,3 @@
-import { dummyResults } from '../../../consts'
 import { PubMedResult } from '../../../hooks/usePubMedResults'
 
 export type PaperSummary = {
@@ -7,20 +6,11 @@ export type PaperSummary = {
     effectiveness: string
 }
 
-export type UseSummaryProps = Pick<PubMedResult, 'title' | 'abstract'>
+export type UseSummaryProps = Pick<PubMedResult, 'abstract'>
 
-export type UseSummaryReturn = {
-    paperSummary: PaperSummary
-}
-
-const useSummary = ({ title }: UseSummaryProps): UseSummaryReturn => {
-    // TODO: Request to back-end API
-
-    const paperSummary = dummyResults.filter(
-        (result) => result.title === title
-    )[0].summary
-
-    return { paperSummary }
+const useSummary = () => {
+    // TODO: Utilize react query to retrieve abstract summary
+    // from API
 }
 
 export default useSummary
