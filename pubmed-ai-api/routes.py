@@ -48,7 +48,8 @@ def get_papers():
                     "abstract": abstract.replace('\n', ''),
                     "publicationDate": publication_date.strftime('%d/%m/%Y'),
                     "authors": author_names_only,
-                    "id": pubmed_id,
+                    # Some ids are returned in bad format, so we need to split
+                    "id": pubmed_id.split('\n')[0],
                 }
 
                 # Append to results array
