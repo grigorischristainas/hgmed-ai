@@ -1,16 +1,29 @@
 from flask import request, jsonify
 from config import app, chatbot, pubmed
+from models import AbstractSummaryPostSchema, PubMedResultsPostSchema
+from cerberus import Validator
 
 
 @app.route('/studies/rct', methods=['POST'])
 def get_papers():
     try:
-        keyword = request.json['keyword']
+        json_request = request.json
+
+        request_validator = Validator(PubMedResultsPostSchema)
+        if (not request_validator.validate(json_request)):
+            return jsonify({
+                "status": "ERR",
+                "message": "Invalid request body"
+            })
+
+        keyword = json_request.get('keyword')
+        config = request.json.get('config', {})
+        max_results = config.get('maxResults', 10)
 
         pubMedQuery = '("' + keyword + \
             '"[All Fields]) AND (randomizedcontrolledtrial[Filter])'
 
-        results = pubmed.query(pubMedQuery, max_results=10)
+        results = pubmed.query(pubMedQuery, max_results=max_results)
 
         json_results = []
 
@@ -22,22 +35,22 @@ def get_papers():
             authors = article.authors
 
             author_names_only = []
+            if (title and abstract and publication_date and authors):
+                for author in authors:
+                    author_first_name = author['firstname']
+                    author_last_name = author['lastname']
+                    author_name = author_first_name + ' ' + author_last_name
+                    author_names_only.append(author_name)
 
-            for author in authors:
-                author_first_name = author['firstname']
-                author_last_name = author['lastname']
-                author_name = author_first_name + ' ' + author_last_name
-                author_names_only.append(author_name)
+                response_data = {
+                    "title": title.replace('\n', ''),
+                    "abstract": abstract.replace('\n', ''),
+                    "publicationDate": publication_date.strftime('%d/%m/%Y'),
+                    "authors": author_names_only
+                }
 
-            response_data = {
-                "title": title.replace('\n', ''),
-                "abstract": abstract.replace('\n', ''),
-                "publicationDate": publication_date.strftime('%d/%m/%Y'),
-                "authors": author_names_only
-            }
-
-            # Append to results array
-            json_results.append(response_data)
+                # Append to results array
+                json_results.append(response_data)
 
         # Use jsonify to convert the list into a JSON response
         return jsonify({
@@ -56,6 +69,16 @@ def get_papers():
 @app.route('/ai/huggingchat/generate', methods=['POST'])
 def get_huggingchat_summary():
     try:
+        json_request = request.json
+
+        request_validator = Validator(AbstractSummaryPostSchema)
+
+        if (not request_validator.validate(json_request)):
+            return jsonify({
+                "status": "ERR",
+                "message": "Invalid request body"
+            })
+
         prompt = request.json['prompt']
 
         baseQuery = 'Please identify very briefly for the following research the intervention ' \
