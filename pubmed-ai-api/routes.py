@@ -33,6 +33,7 @@ def get_papers():
             abstract = article.abstract
             publication_date = article.publication_date
             authors = article.authors
+            pubmed_id = article.pubmed_id
 
             author_names_only = []
             if (title and abstract and publication_date and authors):
@@ -46,7 +47,8 @@ def get_papers():
                     "title": title.replace('\n', ''),
                     "abstract": abstract.replace('\n', ''),
                     "publicationDate": publication_date.strftime('%d/%m/%Y'),
-                    "authors": author_names_only
+                    "authors": author_names_only,
+                    "id": pubmed_id,
                 }
 
                 # Append to results array
