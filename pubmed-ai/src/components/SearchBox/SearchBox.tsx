@@ -11,16 +11,19 @@ import { SearchBoxProps } from './types'
 
 const SearchBox = ({ handleSearch }: SearchBoxProps) => {
     const [inputText, setInputText] = React.useState<string>('')
+    const [isSearchBtnDisabled, setIsSearchBtnDisabled] = React.useState(false)
 
     const handleInputChange = React.useCallback(
         (event: React.ChangeEvent<HTMLInputElement>) => {
             setInputText(event.target.value)
+            setIsSearchBtnDisabled(false)
         },
         []
     )
 
     const handleButtonClick = React.useCallback(() => {
         handleSearch(inputText)
+        setIsSearchBtnDisabled(true)
     }, [inputText, handleSearch])
 
     // Clear results upon textbox input clear
@@ -48,7 +51,7 @@ const SearchBox = ({ handleSearch }: SearchBoxProps) => {
             <StyledButtonContainer>
                 <StyledButton
                     variant="contained"
-                    disabled={!inputText}
+                    disabled={isSearchBtnDisabled || !inputText}
                     data-testid="search-button"
                     onClick={handleButtonClick}
                 >
