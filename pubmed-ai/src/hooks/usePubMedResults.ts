@@ -2,7 +2,7 @@ import { UseMutationResult, useMutation } from '@tanstack/react-query'
 import fetchPubMedResults, {
     FetchPubMedResultsProps,
     FetchPubMedResultsReturn,
-} from '../../../services/fetchPubMedResults'
+} from '../services/fetchPubMedResults'
 
 export type PubMedResult = {
     id: string
@@ -10,10 +10,6 @@ export type PubMedResult = {
     abstract: string
     publicationDate: string
     authors: string[]
-}
-
-export type UsePubMedResultsReturn = {
-    pubMedResults: PubMedResult[]
 }
 
 const usePubMedResults = (): UseMutationResult<

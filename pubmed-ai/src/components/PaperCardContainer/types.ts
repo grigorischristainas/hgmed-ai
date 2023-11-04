@@ -1,4 +1,4 @@
-import { PubMedResult } from './hooks/usePubMedResults'
+import { PubMedResult } from '../../hooks/usePubMedResults'
 
 export type PaperCardContainerProps = {
     pubMedResults: PubMedResult[]

@@ -1,6 +1,6 @@
 import React from 'react'
 import { SearchBoxProps } from '../components/SearchBox/types'
-import usePubMedResults from '../components/PaperCardContainer/hooks/usePubMedResults'
+import usePubMedResults from './usePubMedResults'
 
 export type UseSearchKeywordReturn = {
     handleSearch: SearchBoxProps['handleSearch']
