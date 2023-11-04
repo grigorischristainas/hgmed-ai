@@ -1,6 +1,6 @@
 import axios from 'axios'
-import { API_URL } from '../config'
-import { PubMedResult } from '../hooks/usePubMedResults'
+import { API_URL } from '../lib/config'
+import { PubMedResult } from '../lib/types'
 
 export type FetchPubMedResultsProps = {
     keyword: string

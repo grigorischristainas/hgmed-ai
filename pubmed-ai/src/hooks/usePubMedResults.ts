@@ -4,14 +4,6 @@ import fetchPubMedResults, {
     FetchPubMedResultsReturn,
 } from '../services/fetchPubMedResults'
 
-export type PubMedResult = {
-    id: string
-    title: string
-    abstract: string
-    publicationDate: string
-    authors: string[]
-}
-
 const usePubMedResults = (): UseMutationResult<
     FetchPubMedResultsReturn,
     Error,

@@ -1,10 +1,4 @@
-import { PubMedResult } from '../../../../../hooks/usePubMedResults'
-
-export type PaperSummary = {
-    intervention: string
-    disease: string
-    effectiveness: string
-}
+import { PubMedResult } from '../../../../../lib/types'
 
 export type UseSummaryProps = Pick<PubMedResult, 'abstract'>
 

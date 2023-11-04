@@ -1,4 +1,4 @@
-import { PUBMED_URL } from '../../../../../../../config'
+import { PUBMED_URL } from '../../../../../../../lib/config'
 
 const openInNewTab = (id: string): void => {
     const newWindow = window.open(
