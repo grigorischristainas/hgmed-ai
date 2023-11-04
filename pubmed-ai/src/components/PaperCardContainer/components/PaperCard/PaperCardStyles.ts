@@ -1,8 +1,5 @@
 import { Typography, styled } from '@mui/material'
 import Card from '@mui/material/Card'
-import CoronavirusIcon from '@mui/icons-material/Coronavirus'
-import MedicationIcon from '@mui/icons-material/Medication'
-import LightbulbIcon from '@mui/icons-material/Lightbulb'
 import InfoIcon from '@mui/icons-material/Info'
 
 export const StyledCard = styled(Card)({
@@ -37,18 +34,6 @@ export const StyledSummaryContainer = styled('div')({
     flexGrow: 1,
 })
 
-export const StyledDiseaseIcon = styled(CoronavirusIcon)({
-    color: '#4c7a34',
-})
-
-export const StyledInterventionIcon = styled(MedicationIcon)({
-    color: '#6334e3',
-})
-
-export const StyledEffectivenessIcon = styled(LightbulbIcon)({
-    color: '#c3bb38',
-})
-
 export const StyledInfoIconContainer = styled('div')({
     display: 'flex',
     justifyContent: 'flex-end',
@@ -62,10 +47,4 @@ export const StyledInfoIcon = styled(InfoIcon)({
     '&:hover': {
         cursor: 'pointer',
     },
-})
-
-export const StyledSkeletonIconContainer = styled('div')({
-    display: 'inline-block',
-    width: '1em',
-    height: '1em',
 })

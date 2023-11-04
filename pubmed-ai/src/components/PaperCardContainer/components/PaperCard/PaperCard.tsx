@@ -5,104 +5,66 @@ import {
     StyledTitle,
     StyledSectionContainer,
     StyledSummaryContainer,
-    StyledDiseaseIcon,
-    StyledInterventionIcon,
-    StyledEffectivenessIcon,
     StyledInfoIcon,
     StyledInfoIconContainer,
     StyledContentContainer,
-    StyledSkeletonIconContainer,
 } from './PaperCardStyles'
 import { PaperCardProps } from './types'
 import DescriptionIcon from '@mui/icons-material/Description'
 import CardDialog from './components/CardDialog'
 import useDialog from './hooks/useDialog'
-// import useSummary from './hooks/useSummary'
-import Skeleton from 'react-loading-skeleton'
+import usePubMedResultSummary from './hooks/usePubMedResultSummary'
+import ErrorContent from './components/ErrorContent'
+import SummaryContent from './components/SummaryContent'
 
 export const PaperCard = ({ pubMedResult }: PaperCardProps) => {
     const { title, abstract, authors, id, publicationDate } = pubMedResult
 
-    // TODO: Remove after API request integration
-    const loading = true
-    // const {
-    //     paperSummary: { disease, effectiveness, intervention },
-    // } = useSummary({ title, abstract })
-
+    const { mutate, status, data } = usePubMedResultSummary()
     const { dialogOpen, handleDialogClose, handleInfoIconClick } = useDialog()
+
+    const loading = status === 'pending'
+    const error = status === 'error'
+
+    const fetchSummary = React.useCallback(() => {
+        mutate({ prompt: abstract })
+    }, [abstract, mutate])
+
+    const handleRefetch = React.useCallback(() => {
+        fetchSummary()
+    }, [fetchSummary])
+
+    React.useEffect(() => fetchSummary(), [fetchSummary])
 
     return (
         <>
             <StyledCard>
                 <CardContent>
-                    <StyledSectionContainer>
-                        <DescriptionIcon />
-                        <StyledTitle variant="body1">{title}</StyledTitle>
-                    </StyledSectionContainer>
+                    <div>
+                        <StyledSectionContainer>
+                            <DescriptionIcon />
+                            <StyledTitle variant="body1">{title}</StyledTitle>
+                        </StyledSectionContainer>
 
-                    <StyledContentContainer>
-                        <StyledSummaryContainer>
-                            <StyledSectionContainer>
-                                {loading ? (
-                                    <>
-                                        <StyledSkeletonIconContainer>
-                                            <Skeleton
-                                                circle
-                                                containerClassName="skeleton"
-                                            />
-                                        </StyledSkeletonIconContainer>
-                                        <Skeleton containerClassName="skeleton" />
-                                    </>
-                                ) : (
-                                    <>
-                                        <StyledDiseaseIcon />
-                                        <div>disease</div>
-                                    </>
+                        <StyledContentContainer>
+                            <StyledSummaryContainer>
+                                {!error && (
+                                    <SummaryContent
+                                        loading={loading}
+                                        data={data}
+                                    />
                                 )}
-                            </StyledSectionContainer>
-
-                            <StyledSectionContainer>
-                                {loading ? (
-                                    <>
-                                        <StyledSkeletonIconContainer>
-                                            <Skeleton
-                                                circle
-                                                containerClassName="skeleton"
-                                            />
-                                        </StyledSkeletonIconContainer>
-                                        <Skeleton containerClassName="skeleton" />
-                                    </>
-                                ) : (
-                                    <>
-                                        <StyledInterventionIcon />
-                                        <div>intervention</div>
-                                    </>
+                                {error && (
+                                    <ErrorContent
+                                        handleRefetch={handleRefetch}
+                                    />
                                 )}
-                            </StyledSectionContainer>
-
-                            <StyledSectionContainer>
-                                {loading ? (
-                                    <>
-                                        <StyledSkeletonIconContainer>
-                                            <Skeleton
-                                                circle
-                                                containerClassName="skeleton"
-                                            />
-                                        </StyledSkeletonIconContainer>
-                                        <Skeleton containerClassName="skeleton" />
-                                    </>
-                                ) : (
-                                    <>
-                                        <StyledEffectivenessIcon />
-                                        <div>effectiveness</div>
-                                    </>
-                                )}
-                            </StyledSectionContainer>
-                        </StyledSummaryContainer>
-                        <StyledInfoIconContainer>
-                            <StyledInfoIcon onClick={handleInfoIconClick} />
-                        </StyledInfoIconContainer>
-                    </StyledContentContainer>
+                            </StyledSummaryContainer>
+                            <StyledInfoIconContainer>
+                                <StyledInfoIcon onClick={handleInfoIconClick} />
+                            </StyledInfoIconContainer>
+                        </StyledContentContainer>
+                    </div>
                 </CardContent>
             </StyledCard>
             <CardDialog
