@@ -34,6 +34,7 @@ export const StyledSummaryContainer = styled('div')({
     display: 'flex',
     gap: 10,
     flexDirection: 'column',
+    flexGrow: 1,
 })
 
 export const StyledDiseaseIcon = styled(CoronavirusIcon)({
@@ -61,4 +62,10 @@ export const StyledInfoIcon = styled(InfoIcon)({
     '&:hover': {
         cursor: 'pointer',
     },
+})
+
+export const StyledSkeletonIconContainer = styled('div')({
+    display: 'inline-block',
+    width: '1em',
+    height: '1em',
 })

@@ -17,6 +17,9 @@ const fetchPubMedResults = async ({
 }: FetchPubMedResultsProps): Promise<FetchPubMedResultsReturn> => {
     const body = {
         keyword: keyword,
+        config: {
+            maxResults: 2,
+        },
     }
 
     const { data } = await axios.post(`${API_URL}/studies/rct`, body)

@@ -11,16 +11,20 @@ import {
     StyledInfoIcon,
     StyledInfoIconContainer,
     StyledContentContainer,
+    StyledSkeletonIconContainer,
 } from './PaperCardStyles'
 import { PaperCardProps } from './types'
 import DescriptionIcon from '@mui/icons-material/Description'
 import CardDialog from './components/CardDialog'
 import useDialog from './hooks/useDialog'
 // import useSummary from './hooks/useSummary'
+import Skeleton from 'react-loading-skeleton'
 
 export const PaperCard = ({ pubMedResult }: PaperCardProps) => {
     const { title, abstract, authors, id, publicationDate } = pubMedResult
 
+    // TODO: Remove after API request integration
+    const loading = true
     // const {
     //     paperSummary: { disease, effectiveness, intervention },
     // } = useSummary({ title, abstract })
@@ -39,18 +43,60 @@ export const PaperCard = ({ pubMedResult }: PaperCardProps) => {
                     <StyledContentContainer>
                         <StyledSummaryContainer>
                             <StyledSectionContainer>
-                                <StyledDiseaseIcon />
-                                <div>disease</div>
+                                {loading ? (
+                                    <>
+                                        <StyledSkeletonIconContainer>
+                                            <Skeleton
+                                                circle
+                                                containerClassName="skeleton"
+                                            />
+                                        </StyledSkeletonIconContainer>
+                                        <Skeleton containerClassName="skeleton" />
+                                    </>
+                                ) : (
+                                    <>
+                                        <StyledDiseaseIcon />
+                                        <div>disease</div>
+                                    </>
+                                )}
                             </StyledSectionContainer>
 
                             <StyledSectionContainer>
-                                <StyledInterventionIcon />
-                                <div>intervention</div>
+                                {loading ? (
+                                    <>
+                                        <StyledSkeletonIconContainer>
+                                            <Skeleton
+                                                circle
+                                                containerClassName="skeleton"
+                                            />
+                                        </StyledSkeletonIconContainer>
+                                        <Skeleton containerClassName="skeleton" />
+                                    </>
+                                ) : (
+                                    <>
+                                        <StyledInterventionIcon />
+                                        <div>intervention</div>
+                                    </>
+                                )}
                             </StyledSectionContainer>
 
                             <StyledSectionContainer>
-                                <StyledEffectivenessIcon />
-                                <div>effectiveness</div>
+                                {loading ? (
+                                    <>
+                                        <StyledSkeletonIconContainer>
+                                            <Skeleton
+                                                circle
+                                                containerClassName="skeleton"
+                                            />
+                                        </StyledSkeletonIconContainer>
+                                        <Skeleton containerClassName="skeleton" />
+                                    </>
+                                ) : (
+                                    <>
+                                        <StyledEffectivenessIcon />
+                                        <div>effectiveness</div>
+                                    </>
+                                )}
                             </StyledSectionContainer>
                         </StyledSummaryContainer>
                         <StyledInfoIconContainer>
