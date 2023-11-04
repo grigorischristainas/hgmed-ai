@@ -20,7 +20,7 @@ import SummaryContent from './components/SummaryContent'
 export const PaperCard = ({ pubMedResult }: PaperCardProps) => {
     const { title, abstract, authors, id, publicationDate } = pubMedResult
 
-    const { mutate, status, data } = usePubMedResultSummary()
+    const { mutate, status, data } = usePubMedResultSummary({ id })
     const { dialogOpen, handleDialogClose, handleInfoIconClick } = useDialog()
 
     const loading = status === 'pending'
