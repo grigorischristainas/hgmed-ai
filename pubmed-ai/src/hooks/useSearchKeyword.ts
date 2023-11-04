@@ -1,22 +1,22 @@
 import React from 'react'
 import { SearchBoxProps } from '../components/SearchBox/types'
+import usePubMedResults from '../components/PaperCardContainer/hooks/usePubMedResults'
 
 export type UseSearchKeywordReturn = {
-    searchKeyword: string
     handleSearch: SearchBoxProps['handleSearch']
-}
+} & Pick<ReturnType<typeof usePubMedResults>, 'data' | 'status'>
 
 const useSearchKeyword = (): UseSearchKeywordReturn => {
-    const [searchKeyword, setSearchKeyword] = React.useState('')
+    const { mutate, status, data } = usePubMedResults()
 
     const handleSearch = React.useCallback<SearchBoxProps['handleSearch']>(
         (keyword) => {
-            setSearchKeyword(keyword)
+            mutate({ keyword })
         },
-        []
+        [mutate]
     )
 
-    return { searchKeyword, handleSearch }
+    return { handleSearch, status, data }
 }
 
 export default useSearchKeyword

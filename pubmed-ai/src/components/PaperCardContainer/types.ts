@@ -1,3 +1,5 @@
+import { PubMedResult } from './hooks/usePubMedResults'
+
 export type PaperCardContainerProps = {
-    keyword: string
+    pubMedResults: PubMedResult[]
 }

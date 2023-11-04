@@ -4,7 +4,7 @@ import SearchBox from './SearchBox'
 
 describe('SearchBox: Test that component', () => {
     it('should initially render correctly', () => {
-        render(<SearchBox handleSearch={jest.fn()} />)
+        render(<SearchBox handleSearch={jest.fn()} isSearchDisabled={false} />)
 
         expect(screen.getByTestId('input-search')).toBeInTheDocument()
         expect(screen.getByTestId('search-button')).toBeInTheDocument()
@@ -13,7 +13,9 @@ describe('SearchBox: Test that component', () => {
 
     it('should call handleSearch with correct search value', () => {
         const handleSearch = jest.fn()
-        render(<SearchBox handleSearch={handleSearch} />)
+        render(
+            <SearchBox handleSearch={handleSearch} isSearchDisabled={false} />
+        )
 
         fireEvent.change(screen.getByPlaceholderText('Try `Paracetamol`...'), {
             target: { value: 'Paracetamol' },
