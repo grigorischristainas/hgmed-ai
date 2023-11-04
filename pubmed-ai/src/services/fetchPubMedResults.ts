@@ -18,7 +18,7 @@ const fetchPubMedResults = async ({
     const body = {
         keyword: keyword,
         config: {
-            maxResults: 2,
+            maxResults: 20,
         },
     }
 
