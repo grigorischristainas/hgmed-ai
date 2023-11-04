@@ -20,21 +20,11 @@ import SummaryContent from './components/SummaryContent'
 export const PaperCard = ({ pubMedResult }: PaperCardProps) => {
     const { title, abstract, authors, id, publicationDate } = pubMedResult
 
-    const { mutate, status, data } = usePubMedResultSummary({ id })
+    const { data, refetch, isError, isLoading } = usePubMedResultSummary({
+        id,
+        prompt: abstract,
+    })
     const { dialogOpen, handleDialogClose, handleInfoIconClick } = useDialog()
-
-    const loading = status === 'pending'
-    const error = status === 'error'
-
-    const fetchSummary = React.useCallback(() => {
-        mutate({ prompt: abstract })
-    }, [abstract, mutate])
-
-    const handleRefetch = React.useCallback(() => {
-        fetchSummary()
-    }, [fetchSummary])
-
-    React.useEffect(() => fetchSummary(), [fetchSummary])
 
     return (
         <>
@@ -48,16 +38,14 @@ export const PaperCard = ({ pubMedResult }: PaperCardProps) => {
 
                         <StyledContentContainer>
                             <StyledSummaryContainer>
-                                {!error && (
+                                {!isError && (
                                     <SummaryContent
-                                        loading={loading}
+                                        loading={isLoading}
                                         data={data}
                                     />
                                 )}
-                                {error && (
-                                    <ErrorContent
-                                        handleRefetch={handleRefetch}
-                                    />
+                                {isError && (
+                                    <ErrorContent handleRefetch={refetch} />
                                 )}
                             </StyledSummaryContainer>
                             <StyledInfoIconContainer>
