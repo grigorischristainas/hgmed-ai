@@ -66,7 +66,7 @@ def get_papers():
         return jsonify({
             "status": "ERR",
             "message": str(e)
-        })
+        }), 500
 
 
 @app.route('/ai/huggingchat/generate', methods=['POST'])
@@ -112,4 +112,4 @@ def get_huggingchat_summary():
         return jsonify({
             "status": "ERR",
             "message": str(e)
-        })
+        }), 500
