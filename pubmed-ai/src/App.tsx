@@ -8,7 +8,7 @@ import useSearchKeyword from './hooks/useSearchKeyword'
 import CircularProgress from '@mui/material/CircularProgress'
 
 function App() {
-    const { handleSearch, data, status } = useSearchKeyword()
+    const { handleSearch, data, isLoading, isError } = useSearchKeyword()
 
     return (
         <StyledRootContainer>
@@ -17,9 +17,10 @@ function App() {
                 <Description />
                 <SearchBox
                     handleSearch={handleSearch}
-                    isSearchDisabled={status === 'pending'}
+                    isSearchDisabled={isLoading}
                 />
-                {status === 'pending' && <CircularProgress size={24} />}
+                {isLoading && <CircularProgress size={24} />}
+                {isError && <div>Something went wrong. Please try again</div>}
                 {data && data._items.length === 0 && (
                     <div>No results found</div>
                 )}

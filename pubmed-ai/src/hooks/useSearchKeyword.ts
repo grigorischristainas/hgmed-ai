@@ -4,19 +4,23 @@ import usePubMedResults from './usePubMedResults'
 
 export type UseSearchKeywordReturn = {
     handleSearch: SearchBoxProps['handleSearch']
-} & Pick<ReturnType<typeof usePubMedResults>, 'data' | 'status'>
+} & Pick<ReturnType<typeof usePubMedResults>, 'data' | 'isLoading' | 'isError'>
 
 const useSearchKeyword = (): UseSearchKeywordReturn => {
-    const { mutate, status, data } = usePubMedResults()
+    const [enabled, setIsEnabled] = React.useState(false)
+    const [keyword, setKeyword] = React.useState('')
+
+    const { isLoading, data, isError } = usePubMedResults({ keyword, enabled })
 
     const handleSearch = React.useCallback<SearchBoxProps['handleSearch']>(
         (keyword) => {
-            mutate({ keyword })
+            setKeyword(keyword)
+            setIsEnabled(true)
         },
-        [mutate]
+        []
     )
 
-    return { handleSearch, status, data }
+    return { handleSearch, isLoading, data, isError }
 }
 
 export default useSearchKeyword
