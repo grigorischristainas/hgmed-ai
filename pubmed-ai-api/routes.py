@@ -2,6 +2,8 @@ from flask import request, jsonify
 from config import app, chatbot, pubmed
 from models import AbstractSummaryPostSchema, PubMedResultsPostSchema
 from cerberus import Validator
+import time
+from random import randint
 
 
 @app.route('/studies/rct', methods=['POST'])
@@ -73,6 +75,7 @@ def get_papers():
 def get_huggingchat_summary():
     try:
         json_request = request.json
+        time.sleep(randint(0, 4))
 
         request_validator = Validator(AbstractSummaryPostSchema)
 
@@ -84,7 +87,7 @@ def get_huggingchat_summary():
 
         prompt = request.json['prompt']
 
-        baseQuery = 'Please identify very briefly for the following research the intervention ' \
+        baseQuery = 'Please identify for the following research the intervention ' \
             '(or comparison of interventions), the disease and the effectiveness of the intervention. ' \
             'Respond only in the following format with no extra text: ' \
             '# <intervention (or comparison of interventions)> / <disease> / <effectiveness of the intervention>:'

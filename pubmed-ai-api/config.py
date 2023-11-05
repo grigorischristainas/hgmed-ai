@@ -5,6 +5,9 @@ from pymed import PubMed
 from dotenv import load_dotenv
 import os
 from flask_cors import CORS
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
 
 cookie_path_dir = "./cookies_snapshot"
 
