@@ -195,7 +195,7 @@ def get_huggingchat_summary():
 
         query_result = chatbot.query(baseQuery + prompt)
 
-        split_query = str(query_result).split("#")[1].split('/')
+        split_query = str(query_result).split("#")[1].split(' / ')
         intervention = split_query[0].strip()
         disease = split_query[1].strip()
         effectiveness = split_query[2].strip()
