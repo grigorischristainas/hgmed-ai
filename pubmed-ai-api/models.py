@@ -22,3 +22,18 @@ AbstractSummaryPostSchema = {
         'required': True
     },
 }
+
+UserRegistrationSchema = {
+    'email': {
+        'type': 'string',
+        'required': True,
+        'minlength': 1,
+        'maxlength': 30
+    },
+    'password': {
+        'type': 'string',
+        'required': True,
+        'minlength': 5,
+        'maxlength': 20
+    }
+}

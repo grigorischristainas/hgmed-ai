@@ -1,22 +1,116 @@
 from flask import request, jsonify
-from config import app, chatbot, pubmed
-from models import AbstractSummaryPostSchema, PubMedResultsPostSchema
+from config import app, chatbot, pubmed, users_collection
+from models import AbstractSummaryPostSchema, PubMedResultsPostSchema, UserRegistrationSchema
 from cerberus import Validator
 import time
 from random import randint
+import hashlib
+from flask_jwt_extended import create_access_token, jwt_required
+
+
+@app.route("/users", methods=["POST"])
+def register():
+    try:
+        json_request = request.json
+
+        request_validator = Validator(UserRegistrationSchema)
+        if (not request_validator.validate(json_request)):
+            validation_errors = []
+
+            for field, errors in request_validator.errors.items():
+                validation_errors.append({field: errors})
+
+            return jsonify({
+                "status": "ERR",
+                "message": "Invalid request body",
+                "validation": validation_errors
+            }), 422
+
+        json_request["password"] = hashlib.sha256(
+            json_request["password"].encode("utf-8")).hexdigest()
+        doc = users_collection.find_one(
+            {"email": json_request["email"]})
+
+        if not doc:
+            users_collection.insert_one(json_request)
+            return jsonify({
+                "status": "OK",
+                "message": "User created successfully"
+            }), 201
+        else:
+            return jsonify({
+                "status": "ERR",
+                "message": "Invalid request body",
+                "validation": [
+                    {
+                        "email": "email already exists"
+                    }
+                ]
+            }), 422
+    except Exception as e:
+        return jsonify({
+            "status": "ERR",
+            "message": str(e)
+        }), 500
+
+
+@app.route("/login", methods=["POST"])
+def login():
+
+    json_request = request.json
+
+    request_validator = Validator(UserRegistrationSchema)
+    if (not request_validator.validate(json_request)):
+        validation_errors = []
+
+        for field, errors in request_validator.errors.items():
+            validation_errors.append({field: errors})
+
+        return jsonify({
+            "status": "ERR",
+            "message": "Invalid request body",
+            "validation": validation_errors
+        }), 422
+
+    user_from_db = users_collection.find_one(
+        {'email': json_request['email']})
+
+    if user_from_db:
+        encrpted_password = hashlib.sha256(
+            json_request['password'].encode("utf-8")).hexdigest()
+        if encrpted_password == user_from_db['password']:
+            access_token = create_access_token(
+                identity=user_from_db['email'])
+            return jsonify({
+                "status": "OK",
+                "message": "Request was successful",
+                'accessToken': access_token
+            }), 200
+
+    return jsonify({
+        "status": "ERR",
+        "message": "The email or password is incorrect",
+    }), 401
 
 
 @app.route('/studies/rct', methods=['POST'])
+@jwt_required()
 def get_papers():
     try:
         json_request = request.json
 
         request_validator = Validator(PubMedResultsPostSchema)
         if (not request_validator.validate(json_request)):
+            validation_errors = []
+
+            for field, errors in request_validator.errors.items():
+                validation_errors.append({field: errors})
+
             return jsonify({
                 "status": "ERR",
-                "message": "Invalid request body"
-            })
+                "message": "Invalid request body",
+                "validation": validation_errors
+            }), 422
 
         keyword = json_request.get('keyword')
         config = request.json.get('config', {})
@@ -72,6 +166,7 @@ def get_papers():
 
 
 @app.route('/ai/huggingchat/generate', methods=['POST'])
+@jwt_required()
 def get_huggingchat_summary():
     try:
         json_request = request.json
@@ -80,10 +175,16 @@ def get_huggingchat_summary():
         request_validator = Validator(AbstractSummaryPostSchema)
 
         if (not request_validator.validate(json_request)):
+            validation_errors = []
+
+            for field, errors in request_validator.errors.items():
+                validation_errors.append({field: errors})
+
             return jsonify({
                 "status": "ERR",
-                "message": "Invalid request body"
-            })
+                "message": "Invalid request body",
+                "validation": validation_errors
+            }), 422
 
         prompt = request.json['prompt']
 
