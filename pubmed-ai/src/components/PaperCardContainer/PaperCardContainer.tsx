@@ -6,6 +6,7 @@ import {
 } from './PaperCardContainerStyles'
 import PaperCard from './components/PaperCard'
 import usePubMedResultChunks from './hooks/usePubMedResultChunks'
+import useScrollToEndOfCards from './hooks/useScrollToEndOfCards'
 
 const PaperCardContainer = ({ pubMedResults }: PaperCardContainerProps) => {
     const {
@@ -13,6 +14,10 @@ const PaperCardContainer = ({ pubMedResults }: PaperCardContainerProps) => {
         isLoadMoreButtonDisabled,
         renderedResults,
     } = usePubMedResultChunks({ pubMedResults })
+
+    const { endOfCardsRef } = useScrollToEndOfCards({
+        renderedResultsLength: renderedResults.length,
+    })
 
     return (
         <StyledRootContainer>
@@ -26,6 +31,7 @@ const PaperCardContainer = ({ pubMedResults }: PaperCardContainerProps) => {
             >
                 Load more
             </StyledMoreButton>
+            <div ref={endOfCardsRef}></div>
         </StyledRootContainer>
     )
 }
