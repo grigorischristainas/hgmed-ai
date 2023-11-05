@@ -12,13 +12,20 @@ import TextField from '@mui/material/TextField'
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined'
+import loginUser from '../../services/loginUser'
+import Snackbar from '@mui/material/Snackbar'
+import Alert from '@mui/material/Alert'
 
 const Login = () => {
     const [emailError, setEmailError] = React.useState(false)
     const [passwordError, setPasswordError] = React.useState(false)
+    const [openSnackbar, setOpenSnackbar] = React.useState(false)
+    const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] =
+        React.useState(false)
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
+        setIsSubmitButtonDisabled(true)
 
         const data = new FormData(event.currentTarget)
         const email = data.get('email')
@@ -32,10 +39,30 @@ const Login = () => {
             setPasswordError(true)
         }
 
-        console.log({
-            email: email,
-            password: password,
-        })
+        if (email && password) {
+            try {
+                const response = await loginUser(
+                    email.toString(),
+                    password.toString()
+                )
+                console.log('Success: ', response)
+            } catch (error) {
+                setOpenSnackbar(true)
+            }
+        }
+
+        setIsSubmitButtonDisabled(false)
+    }
+
+    const handleSnackbarClose = (
+        event?: React.SyntheticEvent | Event,
+        reason?: string
+    ) => {
+        if (reason === 'clickaway') {
+            return
+        }
+
+        setOpenSnackbar(false)
     }
 
     return (
@@ -78,13 +105,27 @@ const Login = () => {
                             onChange={() => setPasswordError(false)}
                         />
                         <StyledButtonContainer>
-                            <StyledButton type="submit" variant="contained">
+                            <StyledButton
+                                type="submit"
+                                variant="contained"
+                                disabled={isSubmitButtonDisabled}
+                            >
                                 Sign In
                             </StyledButton>
                         </StyledButtonContainer>
                     </Box>
                 </StyledContentContainer>
             </Container>
+            <Snackbar
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                open={openSnackbar}
+                autoHideDuration={5000}
+                onClose={handleSnackbarClose}
+            >
+                <Alert severity="error" sx={{ width: '100%' }}>
+                    Incorrect email or password. Please try again.
+                </Alert>
+            </Snackbar>
         </StyledRootContainer>
     )
 }
