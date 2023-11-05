@@ -8,6 +8,7 @@ import {
     StyledInfoIcon,
     StyledInfoIconContainer,
     StyledContentContainer,
+    StyledRefreshIcon,
 } from './PaperCardStyles'
 import { PaperCardProps } from './types'
 import DescriptionIcon from '@mui/icons-material/Description'
@@ -16,15 +17,21 @@ import useDialog from './hooks/useDialog'
 import usePubMedResultSummary from './hooks/usePubMedResultSummary'
 import ErrorContent from './components/ErrorContent'
 import SummaryContent from './components/SummaryContent'
+import IconButton from '@mui/material/IconButton'
 
 export const PaperCard = ({ pubMedResult }: PaperCardProps) => {
     const { title, abstract, authors, id, publicationDate } = pubMedResult
 
-    const { data, refetch, isError, isLoading } = usePubMedResultSummary({
-        id,
-        prompt: abstract,
-    })
+    const { data, refetch, isError, isLoading, isFetching } =
+        usePubMedResultSummary({
+            id,
+            prompt: abstract,
+        })
     const { dialogOpen, handleDialogClose, handleInfoIconClick } = useDialog()
+
+    const handleRefreshIconClick = React.useCallback(() => {
+        refetch()
+    }, [refetch])
 
     return (
         <>
@@ -40,7 +47,7 @@ export const PaperCard = ({ pubMedResult }: PaperCardProps) => {
                             <StyledSummaryContainer>
                                 {!isError && (
                                     <SummaryContent
-                                        loading={isLoading}
+                                        loading={isLoading || isFetching}
                                         data={data}
                                     />
                                 )}
@@ -49,7 +56,22 @@ export const PaperCard = ({ pubMedResult }: PaperCardProps) => {
                                 )}
                             </StyledSummaryContainer>
                             <StyledInfoIconContainer>
-                                <StyledInfoIcon onClick={handleInfoIconClick} />
+                                <IconButton
+                                    size="small"
+                                    disabled={isLoading || isFetching}
+                                >
+                                    <StyledRefreshIcon
+                                        fontSize="inherit"
+                                        onClick={handleRefreshIconClick}
+                                    />
+                                </IconButton>
+
+                                <IconButton size="small">
+                                    <StyledInfoIcon
+                                        fontSize="inherit"
+                                        onClick={handleInfoIconClick}
+                                    />
+                                </IconButton>
                             </StyledInfoIconContainer>
                         </StyledContentContainer>
                     </div>
