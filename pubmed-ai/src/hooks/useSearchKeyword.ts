@@ -1,16 +1,14 @@
 import React from 'react'
 import { SearchBoxProps } from '../components/SearchBox/types'
-import usePubMedResults from './usePubMedResults'
 
 export type UseSearchKeywordReturn = {
     handleSearch: SearchBoxProps['handleSearch']
-} & Pick<ReturnType<typeof usePubMedResults>, 'data' | 'isLoading' | 'isError'>
-
+    keyword: string
+    enabled: boolean
+}
 const useSearchKeyword = (): UseSearchKeywordReturn => {
     const [enabled, setIsEnabled] = React.useState(false)
     const [keyword, setKeyword] = React.useState('')
-
-    const { isLoading, data, isError } = usePubMedResults({ keyword, enabled })
 
     const handleSearch = React.useCallback<SearchBoxProps['handleSearch']>(
         (keyword) => {
@@ -20,7 +18,7 @@ const useSearchKeyword = (): UseSearchKeywordReturn => {
         []
     )
 
-    return { handleSearch, isLoading, data, isError }
+    return { handleSearch, keyword, enabled }
 }
 
 export default useSearchKeyword

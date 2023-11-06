@@ -5,10 +5,9 @@ import SearchBox from './components/SearchBox'
 import { StyledContent, StyledRootContainer } from './AppStyles'
 import Description from './components/Description'
 import useSearchKeyword from './hooks/useSearchKeyword'
-import CircularProgress from '@mui/material/CircularProgress'
 
 function App() {
-    const { handleSearch, data, isLoading, isError } = useSearchKeyword()
+    const { handleSearch, keyword, enabled } = useSearchKeyword()
 
     return (
         <StyledRootContainer>
@@ -17,16 +16,9 @@ function App() {
                 <Description />
                 <SearchBox
                     handleSearch={handleSearch}
-                    isSearchDisabled={isLoading}
+                    isSearchDisabled={false}
                 />
-                {isLoading && <CircularProgress size={24} />}
-                {isError && <div>Something went wrong. Please try again</div>}
-                {data && data._items.length === 0 && (
-                    <div>No results found</div>
-                )}
-                {data && data._items.length > 0 && (
-                    <PaperCardContainer pubMedResults={data._items} />
-                )}
+                {enabled && <PaperCardContainer keyword={keyword} />}
             </StyledContent>
         </StyledRootContainer>
     )

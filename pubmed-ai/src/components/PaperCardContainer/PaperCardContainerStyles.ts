@@ -1,4 +1,5 @@
-import { Button, styled } from '@mui/material'
+import { styled } from '@mui/material'
+import LoadingButton from '@mui/lab/LoadingButton'
 
 export const StyledRootContainer = styled('div')({
     display: 'flex',
@@ -9,7 +10,7 @@ export const StyledRootContainer = styled('div')({
     width: '100%',
 })
 
-export const StyledMoreButton = styled(Button)({
+export const StyledMoreButton = styled(LoadingButton)({
     backgroundColor: '#ffffff',
     color: '#444444',
     '&:hover': {

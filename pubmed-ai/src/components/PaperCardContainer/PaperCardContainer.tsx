@@ -5,32 +5,45 @@ import {
     StyledRootContainer,
 } from './PaperCardContainerStyles'
 import PaperCard from './components/PaperCard'
-import usePubMedResultChunks from './hooks/usePubMedResultChunks'
 import useScrollToEndOfCards from './hooks/useScrollToEndOfCards'
+import usePubMedResults from '../../hooks/usePubMedResults'
+import CircularProgress from '@mui/material/CircularProgress'
 
-const PaperCardContainer = ({ pubMedResults }: PaperCardContainerProps) => {
-    const {
-        handleLoadMoreButtonClick,
-        isLoadMoreButtonDisabled,
-        renderedResults,
-    } = usePubMedResultChunks({ pubMedResults })
+const PaperCardContainer = ({ keyword }: PaperCardContainerProps) => {
+    const { status, data, fetchNextPage, isFetching } = usePubMedResults({
+        keyword,
+        enabled: true,
+    })
+
+    const isLoading = status === 'pending'
+    const isError = status === 'error'
 
     const { endOfCardsRef } = useScrollToEndOfCards({
-        renderedResultsLength: renderedResults.length,
+        renderedResultsLength: data?.pages.length || 0,
     })
 
     return (
         <StyledRootContainer>
-            {renderedResults.map((result) => (
-                <PaperCard pubMedResult={result} key={result.id} />
+            {isLoading && <CircularProgress size={24} />}
+            {isError && <div>Something went wrong. Please try again</div>}
+            {data?.pages.map((page) => (
+                <React.Fragment key={page._meta.page}>
+                    {page._items.map((item) => (
+                        <PaperCard pubMedResult={item} key={item.id} />
+                    ))}
+                </React.Fragment>
             ))}
-            <StyledMoreButton
-                variant="contained"
-                onClick={handleLoadMoreButtonClick}
-                disabled={isLoadMoreButtonDisabled}
-            >
-                Load more
-            </StyledMoreButton>
+            {data && (
+                <StyledMoreButton
+                    variant="contained"
+                    onClick={() => fetchNextPage()}
+                    disabled={isFetching}
+                    loading={isFetching}
+                >
+                    Load more
+                </StyledMoreButton>
+            )}
+
             <div ref={endOfCardsRef}></div>
         </StyledRootContainer>
     )
