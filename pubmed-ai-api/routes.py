@@ -1,6 +1,6 @@
 from flask import request, jsonify
-from config import app, chatbot, pubmed, users_collection
-from models import AbstractSummaryPostSchema, PubMedResultsPostSchema, UserRegistrationSchema, PubMedResultsArgsSchema
+from config import app, chatbot, users_collection
+from models import AbstractSummaryPostSchema, UserRegistrationSchema, PubMedResultsArgsSchema
 from cerberus import Validator
 import time
 from random import randint
@@ -148,7 +148,7 @@ def retrieve_papers():
 
 
 @app.route('/ai/huggingchat/generate', methods=['POST'])
-@jwt_required()
+# @jwt_required()
 def get_huggingchat_summary():
     try:
         json_request = request.json

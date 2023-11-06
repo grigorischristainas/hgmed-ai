@@ -39,7 +39,6 @@ except:
     })
 
 chatbot = hugchat.ChatBot(cookies=cookies)
-pubmed = PubMed(tool="MyTool", email=hugging_chat_email)
 
 app = Flask(__name__)
 CORS(app)
