@@ -1,11 +1,12 @@
 from flask import request, jsonify
 from config import app, chatbot, pubmed, users_collection
-from models import AbstractSummaryPostSchema, PubMedResultsPostSchema, UserRegistrationSchema
+from models import AbstractSummaryPostSchema, PubMedResultsPostSchema, UserRegistrationSchema, PubMedResultsArgsSchema
 from cerberus import Validator
 import time
 from random import randint
 import hashlib
 from flask_jwt_extended import create_access_token, jwt_required
+from helpers import getPubMedPapers
 
 
 @app.route("/users", methods=["POST"])
@@ -93,14 +94,14 @@ def login():
     }), 401
 
 
-@app.route('/studies/rct', methods=['POST'])
-@jwt_required()
-def get_papers():
+@app.route('/studies/rct', methods=['GET'])
+# @jwt_required()
+def retrieve_papers():
     try:
-        json_request = request.json
+        json_args = request.args.to_dict()
 
-        request_validator = Validator(PubMedResultsPostSchema)
-        if (not request_validator.validate(json_request)):
+        request_validator = Validator(PubMedResultsArgsSchema)
+        if (not request_validator.validate(json_args)):
             validation_errors = []
 
             for field, errors in request_validator.errors.items():
@@ -108,54 +109,35 @@ def get_papers():
 
             return jsonify({
                 "status": "ERR",
-                "message": "Invalid request body",
+                "message": "Invalid request arguments",
                 "validation": validation_errors
             }), 422
 
-        keyword = json_request.get('keyword')
-        config = request.json.get('config', {})
-        max_results = config.get('maxResults', 10)
+        keyword = json_args.get('keyword')
+        max_results = json_args.get('maxResults', 2)
+        page = json_args.get('page')
 
-        pubMedQuery = '("' + keyword + \
-            '"[All Fields]) AND (randomizedcontrolledtrial[Filter])'
+        if not max_results.isnumeric() or not page.isnumeric():
+            return jsonify({
+                "status": "ERR",
+                "message": "Invalid request arguments",
+                "validation": [{
+                    "max_results": "must be in numeric format",
+                    "page": "must be in numeric format"
+                }]
+            }), 422
 
-        results = pubmed.query(pubMedQuery, max_results=max_results)
+        items, total_count = getPubMedPapers(keyword, page, max_results)
 
-        json_results = []
-
-        for article in results:
-            # Extract and format information from the article
-            title = article.title
-            abstract = article.abstract
-            publication_date = article.publication_date
-            authors = article.authors
-            pubmed_id = article.pubmed_id
-
-            author_names_only = []
-            if (title and abstract and publication_date and authors):
-                for author in authors:
-                    author_first_name = author['firstname']
-                    author_last_name = author['lastname']
-                    author_name = author_first_name + ' ' + author_last_name
-                    author_names_only.append(author_name)
-
-                response_data = {
-                    "title": title.replace('\n', ''),
-                    "abstract": abstract.replace('\n', ''),
-                    "publicationDate": publication_date.strftime('%d/%m/%Y'),
-                    "authors": author_names_only,
-                    # Some ids are returned in bad format, so we need to split
-                    "id": pubmed_id.split('\n')[0],
-                }
-
-                # Append to results array
-                json_results.append(response_data)
-
-        # Use jsonify to convert the list into a JSON response
         return jsonify({
             "status": "OK",
             "message": "Request was successful",
-            "_items": json_results
+            "_items": items,
+            "_meta": {
+                "page": int(page),
+                "max": int(max_results),
+                "total": int(total_count) // int(max_results)
+            }
         })
 
     except Exception as e:

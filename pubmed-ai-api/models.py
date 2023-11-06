@@ -1,20 +1,18 @@
-PubMedResultsPostSchema = {
+PubMedResultsArgsSchema = {
     'keyword': {
         'type': 'string',
         'required': True
     },
-    'config': {
-        'type': 'dict',
-        'required': False,
-        'schema': {
-            'maxResults': {
-                'type': 'number',
-                'required': False
-            },
-
-        }
-    }
+    'page': {
+        'type': 'string',
+        'required': True
+    },
+    'maxResults': {
+        'type': 'string',
+        'required': True
+    },
 }
+
 
 AbstractSummaryPostSchema = {
     'prompt': {
