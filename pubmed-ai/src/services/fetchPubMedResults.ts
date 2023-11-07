@@ -5,6 +5,7 @@ import { PubMedResult } from '../lib/types'
 export type FetchPubMedResultsProps = {
     keyword: string
     pageParam: number
+    accessToken: string
 }
 
 export type FetchPubMedResultsReturn = {
@@ -21,9 +22,16 @@ export type FetchPubMedResultsReturn = {
 const fetchPubMedResults = async ({
     keyword,
     pageParam,
+    accessToken,
 }: FetchPubMedResultsProps): Promise<FetchPubMedResultsReturn> => {
     const { data } = await axios.get(
-        `${API_URL}/studies/rct?keyword=${keyword}&page=${pageParam}&maxResults=2`
+        `${API_URL}/studies/rct?keyword=${keyword}&page=${pageParam}&maxResults=2`,
+        {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+                'Content-Type': 'application/json',
+            },
+        }
     )
 
     return data

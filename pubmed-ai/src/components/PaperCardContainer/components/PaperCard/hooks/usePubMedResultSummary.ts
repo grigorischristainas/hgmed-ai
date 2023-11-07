@@ -2,6 +2,7 @@ import { UseQueryResult, useQuery } from '@tanstack/react-query'
 import fetchPubMedResultSummary, {
     FetchPubMedResultSummaryReturn,
 } from '../../../../../services/fetchPubMedResultSummary'
+import { useLocalStorage } from '@uidotdev/usehooks'
 
 export type UsePubMedResultSummaryProps = {
     id: string
@@ -15,9 +16,12 @@ const usePubMedResultSummary = ({
     FetchPubMedResultSummaryReturn,
     Error
 > => {
+    const [accessToken] = useLocalStorage<string>('token')
+
     return useQuery({
         queryKey: ['summary', id],
-        queryFn: () => fetchPubMedResultSummary({ prompt: prompt }),
+        queryFn: () =>
+            fetchPubMedResultSummary({ prompt: prompt, accessToken }),
         staleTime: Infinity,
     })
 }
