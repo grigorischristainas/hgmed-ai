@@ -15,6 +15,7 @@ import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined'
 import loginUser from '../../services/loginUser'
 import Snackbar from '@mui/material/Snackbar'
 import Alert from '@mui/material/Alert'
+import { useLocalStorage } from '@uidotdev/usehooks'
 
 const Login = () => {
     const [emailError, setEmailError] = React.useState(false)
@@ -22,6 +23,11 @@ const Login = () => {
     const [openSnackbar, setOpenSnackbar] = React.useState(false)
     const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] =
         React.useState(false)
+
+    const [, saveToken] = useLocalStorage<string | undefined>(
+        'token',
+        undefined
+    )
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
@@ -45,7 +51,7 @@ const Login = () => {
                     email.toString(),
                     password.toString()
                 )
-                console.log('Success: ', response)
+                saveToken(response.accessToken)
             } catch (error) {
                 setOpenSnackbar(true)
             }

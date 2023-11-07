@@ -1,7 +1,16 @@
 import axios from 'axios'
 import { API_URL } from '../lib/config'
 
-const loginUser = async (email: string, password: string) => {
+export type LoginUserReturn = {
+    accessToken: string
+    status: string
+    message: string
+}
+
+const loginUser = async (
+    email: string,
+    password: string
+): Promise<LoginUserReturn> => {
     const body = {
         email: email,
         password: password,
