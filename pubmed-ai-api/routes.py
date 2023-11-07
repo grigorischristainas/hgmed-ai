@@ -10,6 +10,7 @@ from helpers import getPubMedPapers
 
 
 @app.route("/users", methods=["POST"])
+@jwt_required()
 def register():
     try:
         json_request = request.json
@@ -95,7 +96,7 @@ def login():
 
 
 @app.route('/studies/rct', methods=['GET'])
-# @jwt_required()
+@jwt_required()
 def retrieve_papers():
     try:
         json_args = request.args.to_dict()
@@ -148,7 +149,7 @@ def retrieve_papers():
 
 
 @app.route('/ai/huggingchat/generate', methods=['POST'])
-# @jwt_required()
+@jwt_required()
 def get_huggingchat_summary():
     try:
         json_request = request.json
