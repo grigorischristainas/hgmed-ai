@@ -1,26 +1,17 @@
 import React from 'react'
-import PaperCardContainer from './components/PaperCardContainer'
-import Title from './components/Title'
-import SearchBox from './components/SearchBox'
-import { StyledContent, StyledRootContainer } from './AppStyles'
-import Description from './components/Description'
-import useSearchKeyword from './hooks/useSearchKeyword'
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
+import Login from './components/Login'
+import Home from './components/Home'
 
 function App() {
-    const { handleSearch, keyword, enabled } = useSearchKeyword()
-
     return (
-        <StyledRootContainer>
-            <StyledContent>
-                <Title />
-                <Description />
-                <SearchBox
-                    handleSearch={handleSearch}
-                    isSearchDisabled={false}
-                />
-                {enabled && <PaperCardContainer keyword={keyword} />}
-            </StyledContent>
-        </StyledRootContainer>
+        <BrowserRouter>
+            <Routes>
+                <Route path="/login" element={<Login />} />
+                <Route path="/home" element={<Home />} />
+                <Route path="*" element={<Navigate to="/home" replace />} />
+            </Routes>
+        </BrowserRouter>
     )
 }
 
