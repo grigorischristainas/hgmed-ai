@@ -7,8 +7,6 @@ PUBMED_API_KEY = os.environ.get('PUBMED_API_KEY')
 
 
 def getPubMedPaperAbstract(paper_id):
-    time.sleep(1)
-
     efetch_base_url = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi'
     efetch_url = f'{efetch_base_url}?db=pubmed&id={paper_id}&retmode=xml&'\
         f'&api_key={PUBMED_API_KEY}'
@@ -30,8 +28,6 @@ def getPubMedPaperAbstract(paper_id):
 
 
 def getPubMedPaperIds(keyword, page, max_results):
-    time.sleep(1)
-
     retstart = page
     if (int(page) > 0):
         retstart = int(page) + 1
@@ -53,8 +49,6 @@ def getPubMedPaperIds(keyword, page, max_results):
 
 
 def getPubMedPaperSummary(paper_id):
-    time.sleep(1)
-
     esummary_base_url = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi'
     esummary_url = f'{esummary_base_url}?db=pubmed&id={paper_id}&retmode=json&'\
         f'&api_key={PUBMED_API_KEY}'
@@ -81,12 +75,12 @@ def getPubMedPapers(keyword, page, max_results):
     items = []
 
     for paper_id in pubmed_paper_ids:
-        time.sleep(1)
+        time.sleep(0.5)
 
         pubmed_paper_title, pubmed_paper_pubdate, pubmed_paper_authors = getPubMedPaperSummary(
             paper_id)
 
-        time.sleep(1)
+        time.sleep(0.5)
 
         abstract = getPubMedPaperAbstract(paper_id)
 

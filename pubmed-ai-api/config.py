@@ -12,30 +12,34 @@ from pymongo import MongoClient
 
 logging.basicConfig(level=logging.DEBUG)
 
+load_dotenv()
+
+MONGO_DB_USERNAME = os.environ.get('MONGO_DB_USERNAME')
+MONGO_DB_PASSWORD = os.environ.get('MONGO_DB_PASSWORD')
+
 # MongoDB connection
-client = MongoClient("mongodb://localhost:27017/")
+client = MongoClient(
+    f"mongodb+srv://{MONGO_DB_USERNAME}:{MONGO_DB_PASSWORD}@thesisproject.4alrnup.mongodb.net/?retryWrites=true&w=majority")
 db = client["pubmedai"]
 users_collection = db["users"]
 cookies_collection = db["hgchat_cookies"]
 
-load_dotenv()
-
 hugging_chat_email = os.environ.get('hugging_chat_email')
 hugging_chat_passwd = os.environ.get('hugging_chat_passwd')
 
-try:
-    # Load cookies from db, if already authenticated once
-    sign = Login(hugging_chat_email, None)
-    cookies = cookies_collection.find_one(
-        {"email": hugging_chat_email}).get('cookie')
-except:
-    # Log in to huggingface and grant authorization to huggingchat
+# Load cookies from db, if already authenticated once
+sign = Login(hugging_chat_email, None)
+cookies_db = cookies_collection.find_one(
+    {"email": hugging_chat_email})
+if cookies_db:
+    cookies = cookies_db.get('cookie')
+else:
     sign = Login(hugging_chat_email, hugging_chat_passwd)
     cookies = sign.login().get_dict()
 
     cookies_collection.insert_one({
         "email": hugging_chat_email,
-        "cookie": cookies.get_dict()
+        "cookie": cookies
     })
 
 chatbot = hugchat.ChatBot(cookies=cookies)
