@@ -7,9 +7,11 @@ import {
     StyledRootContainer,
     StyledContent,
     StyledLogoutIcon,
-    StyledLogoutIconButton,
+    StyledMainContentContainer,
+    StyledLogoutIconButtonContainer,
 } from './HomeStyles'
 import { useLocalStorage } from '@uidotdev/usehooks'
+import IconButton from '@mui/material/IconButton'
 
 const Home = () => {
     const { handleSearch, keyword, enabled } = useSearchKeyword()
@@ -17,22 +19,25 @@ const Home = () => {
 
     return (
         <StyledRootContainer>
-            <StyledContent>
-                <StyledLogoutIconButton size="medium">
+            <StyledLogoutIconButtonContainer>
+                <IconButton size="medium">
                     <StyledLogoutIcon
                         fontSize="inherit"
                         onClick={() => setToken('')}
                     />
-                </StyledLogoutIconButton>
-
-                <Title />
-                <Description />
-                <SearchBox
-                    handleSearch={handleSearch}
-                    isSearchDisabled={false}
-                />
-                {enabled && <PaperCardContainer keyword={keyword} />}
-            </StyledContent>
+                </IconButton>
+            </StyledLogoutIconButtonContainer>
+            <StyledMainContentContainer>
+                <StyledContent>
+                    <Title />
+                    <Description />
+                    <SearchBox
+                        handleSearch={handleSearch}
+                        isSearchDisabled={false}
+                    />
+                    {enabled && <PaperCardContainer keyword={keyword} />}
+                </StyledContent>
+            </StyledMainContentContainer>
         </StyledRootContainer>
     )
 }
