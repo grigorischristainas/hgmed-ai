@@ -5,11 +5,11 @@ import {
     StyledTitle,
     StyledSectionContainer,
     StyledSummaryContainer,
-    StyledInfoIcon,
     StyledInfoIconContainer,
     StyledContentContainer,
-    StyledRefreshIcon,
 } from './PaperCardStyles'
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
+import LoopIcon from '@mui/icons-material/Loop'
 import { PaperCardProps } from './types'
 import DescriptionIcon from '@mui/icons-material/Description'
 import CardDialog from './components/CardDialog'
@@ -60,14 +60,14 @@ export const PaperCard = ({ pubMedResult }: PaperCardProps) => {
                                     size="small"
                                     disabled={isLoading || isFetching}
                                 >
-                                    <StyledRefreshIcon
+                                    <LoopIcon
                                         fontSize="inherit"
                                         onClick={handleRefreshIconClick}
                                     />
                                 </IconButton>
 
                                 <IconButton size="small">
-                                    <StyledInfoIcon
+                                    <InfoOutlinedIcon
                                         fontSize="inherit"
                                         onClick={handleInfoIconClick}
                                     />

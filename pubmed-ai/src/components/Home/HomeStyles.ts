@@ -1,4 +1,6 @@
 import { styled } from '@mui/material'
+import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded'
+import IconButton from '@mui/material/IconButton'
 
 export const StyledRootContainer = styled('div')({
     display: 'flex',
@@ -15,4 +17,14 @@ export const StyledContent = styled('div')({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+})
+
+export const StyledLogoutIcon = styled(LogoutRoundedIcon)({
+    color: '#e45a89',
+})
+
+export const StyledLogoutIconButton = styled(IconButton)({
+    position: 'absolute',
+    top: 20,
+    right: 20,
 })

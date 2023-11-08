@@ -1,7 +1,5 @@
 import { Typography, styled } from '@mui/material'
 import Card from '@mui/material/Card'
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
-import LoopIcon from '@mui/icons-material/Loop'
 
 export const StyledCard = styled(Card)({
     width: '100%',
@@ -42,12 +40,4 @@ export const StyledInfoIconContainer = styled('div')({
     gap: 10,
     alignItems: 'end',
     marginLeft: 'auto',
-})
-
-export const StyledInfoIcon = styled(InfoOutlinedIcon)({
-    // color: '#717a8a',
-})
-
-export const StyledRefreshIcon = styled(LoopIcon)({
-    // color: '#717a8a',
 })
