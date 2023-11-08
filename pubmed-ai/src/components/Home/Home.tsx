@@ -1,4 +1,3 @@
-import IconButton from '@mui/material/IconButton'
 import useSearchKeyword from '../../hooks/useSearchKeyword'
 import Description from '../Description'
 import PaperCardContainer from '../PaperCardContainer'
