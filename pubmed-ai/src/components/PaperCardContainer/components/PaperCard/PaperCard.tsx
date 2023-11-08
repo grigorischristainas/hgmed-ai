@@ -59,18 +59,16 @@ export const PaperCard = ({ pubMedResult }: PaperCardProps) => {
                                 <IconButton
                                     size="small"
                                     disabled={isLoading || isFetching}
+                                    onClick={handleRefreshIconClick}
                                 >
-                                    <LoopIcon
-                                        fontSize="inherit"
-                                        onClick={handleRefreshIconClick}
-                                    />
+                                    <LoopIcon fontSize="inherit" />
                                 </IconButton>
 
-                                <IconButton size="small">
-                                    <InfoOutlinedIcon
-                                        fontSize="inherit"
-                                        onClick={handleInfoIconClick}
-                                    />
+                                <IconButton
+                                    size="small"
+                                    onClick={handleInfoIconClick}
+                                >
+                                    <InfoOutlinedIcon fontSize="inherit" />
                                 </IconButton>
                             </StyledInfoIconContainer>
                         </StyledContentContainer>
