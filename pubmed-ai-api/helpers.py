@@ -18,13 +18,16 @@ def getPubMedPaperAbstract(paper_id):
 
     abstract_elements = root.findall('.//AbstractText')
 
-    if abstract_elements:
-        abstract = '\n'.join(abstract_element.text.strip()
-                             for abstract_element in abstract_elements)
-        if (len(abstract) >= 50):
-            return abstract
+    try:
+        if abstract_elements:
+            abstract = '\n'.join(abstract_element.text.strip()
+                                 for abstract_element in abstract_elements)
+            if (len(abstract) >= 50):
+                return abstract
+    except Exception as e:
+        return None
 
-    return ''
+    return None
 
 
 def getPubMedPaperIds(keyword, page, max_results):
@@ -40,12 +43,15 @@ def getPubMedPaperIds(keyword, page, max_results):
 
     pubmed_paper_results = requests.get(esearch_url).json()
 
-    pubmed_paper_ids = pubmed_paper_results.get(
-        'esearchresult').get('idlist')
-    pubmed_papers_count = pubmed_paper_results.get(
-        'esearchresult').get('count')
+    try:
+        pubmed_paper_ids = pubmed_paper_results.get(
+            'esearchresult').get('idlist')
+        pubmed_papers_count = pubmed_paper_results.get(
+            'esearchresult').get('count')
 
-    return pubmed_paper_ids, pubmed_papers_count
+        return pubmed_paper_ids, pubmed_papers_count
+    except Exception as e:
+        return None, None
 
 
 def getPubMedPaperSummary(paper_id):
@@ -61,11 +67,14 @@ def getPubMedPaperSummary(paper_id):
     pubmed_paper_author_info = pubmed_paper_summary.get(
         'result').get(paper_id).get('authors')
 
-    pubmed_paper_authors = []
-    for author in pubmed_paper_author_info:
-        pubmed_paper_authors.append(author.get('name'))
+    try:
+        pubmed_paper_authors = []
+        for author in pubmed_paper_author_info:
+            pubmed_paper_authors.append(author.get('name'))
 
-    return pubmed_paper_title, pubmed_paper_pubdate, pubmed_paper_authors
+        return pubmed_paper_title, pubmed_paper_pubdate, pubmed_paper_authors
+    except Exception as e:
+        return None
 
 
 def getPubMedPapers(keyword, page, max_results):
@@ -83,13 +92,13 @@ def getPubMedPapers(keyword, page, max_results):
         time.sleep(0.5)
 
         abstract = getPubMedPaperAbstract(paper_id)
-
-        items.append({
-            'title': pubmed_paper_title,
-            'publicationDate': pubmed_paper_pubdate,
-            'authors': pubmed_paper_authors,
-            'abstract': abstract,
-            'id': paper_id
-        })
+        if (pubmed_paper_title and pubmed_paper_pubdate and pubmed_paper_authors and abstract):
+            items.append({
+                'title': pubmed_paper_title,
+                'publicationDate': pubmed_paper_pubdate,
+                'authors': pubmed_paper_authors,
+                'abstract': abstract,
+                'id': paper_id
+            })
 
     return items, pubmed_papers_count
