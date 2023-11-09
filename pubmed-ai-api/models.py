@@ -1,7 +1,8 @@
 PubMedResultsArgsSchema = {
     'keyword': {
         'type': 'string',
-        'required': True
+        'required': True,
+        'maxlength': 100
     },
     'page': {
         'type': 'string',
@@ -17,7 +18,8 @@ PubMedResultsArgsSchema = {
 AbstractSummaryPostSchema = {
     'prompt': {
         'type': 'string',
-        'required': True
+        'required': True,
+        'maxlength': 5000
     },
 }
 
