@@ -23,7 +23,7 @@ const Home = () => {
                 <IconButton size="medium">
                     <StyledLogoutIcon
                         fontSize="inherit"
-                        onClick={() => setToken('')}
+                        onClick={() => setToken(undefined)}
                     />
                 </IconButton>
             </StyledLogoutIconButtonContainer>

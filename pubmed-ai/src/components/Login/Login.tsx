@@ -23,6 +23,7 @@ const Login = () => {
     const [openSnackbar, setOpenSnackbar] = React.useState(false)
     const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] =
         React.useState(false)
+    const [isLoginLoading, setIsLoginLoading] = React.useState(false)
 
     const [, saveToken] = useLocalStorage<string | undefined>(
         'token',
@@ -47,10 +48,14 @@ const Login = () => {
 
         if (email && password) {
             try {
+                setIsLoginLoading(true)
+
                 const response = await loginUser(
                     email.toString(),
                     password.toString()
                 )
+
+                setIsLoginLoading(false)
                 saveToken(response.accessToken)
             } catch (error) {
                 setOpenSnackbar(true)
@@ -114,6 +119,7 @@ const Login = () => {
                             <StyledButton
                                 type="submit"
                                 variant="contained"
+                                loading={isLoginLoading}
                                 disabled={isSubmitButtonDisabled}
                             >
                                 Sign In

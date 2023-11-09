@@ -38,6 +38,9 @@ const SearchBox = ({ handleSearch, isSearchDisabled }: SearchBoxProps) => {
                 }}
                 variant="outlined"
                 placeholder="Try `Paracetamol`..."
+                inputProps={{
+                    maxLength: 100,
+                }}
             />
             <StyledButtonContainer>
                 <StyledButton
