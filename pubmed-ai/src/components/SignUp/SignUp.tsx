@@ -58,13 +58,18 @@ const SignUp = () => {
                 navigate('/login')
             } catch (error) {
                 if (isAxiosError(error)) {
-                    const emailValidationError =
-                        error?.response?.data?.validation[0]?.email
-                    if (emailValidationError) {
-                        setEmailError(true)
-                        setEmailValidationError(
-                            'This email address has already been registered'
-                        )
+                    if (error.response?.status === 422) {
+                        const emailValidationError =
+                            error?.response?.data?.validation.find(
+                                (validation: object) => 'email' in validation
+                            )
+
+                        if (emailValidationError) {
+                            setEmailError(true)
+                            setEmailValidationError(
+                                'This email address has already been registered'
+                            )
+                        }
                     }
                 }
 
