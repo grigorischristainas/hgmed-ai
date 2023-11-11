@@ -20,11 +20,8 @@ const Home = () => {
     return (
         <StyledRootContainer>
             <StyledLogoutIconButtonContainer>
-                <IconButton size="medium">
-                    <StyledLogoutIcon
-                        fontSize="inherit"
-                        onClick={() => setToken(undefined)}
-                    />
+                <IconButton size="medium" onClick={() => setToken(undefined)}>
+                    <StyledLogoutIcon fontSize="inherit" />
                 </IconButton>
             </StyledLogoutIconButtonContainer>
             <StyledMainContentContainer>
