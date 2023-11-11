@@ -37,7 +37,7 @@ export const StyledDescription = styled(Typography)({
 })
 
 export const StyledAvatar = styled(Avatar)({
-    backgroundColor: '#e45a89',
+    backgroundColor: '#50a9a6',
     marginBottom: 5,
 })
 

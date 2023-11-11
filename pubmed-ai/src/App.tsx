@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
 import Login from './components/Login'
 import Home from './components/Home'
 import { useLocalStorage } from '@uidotdev/usehooks'
+import SignUp from './components/SignUp'
 
 function App() {
     const [token] = useLocalStorage('token')
@@ -14,6 +15,7 @@ function App() {
           ]
         : [
               { path: '/login', element: <Login /> },
+              { path: 'signup', element: <SignUp /> },
               { path: '*', element: <Navigate to="/login" replace /> },
           ]
 
