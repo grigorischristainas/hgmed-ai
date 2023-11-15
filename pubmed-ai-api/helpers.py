@@ -31,9 +31,7 @@ def getPubMedPaperAbstract(paper_id):
 
 
 def getPubMedPaperIds(keyword, page, max_results):
-    retstart = page
-    if (int(page) > 0):
-        retstart = int(page) + 1
+    retstart = int(max_results) * int(page)
 
     term = keyword + '+AND+randomizedcontrolledtrial[Filter]'
     esearch_base_url = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi'
