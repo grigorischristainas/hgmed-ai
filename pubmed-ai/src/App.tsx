@@ -4,6 +4,7 @@ import Login from './components/Login'
 import Home from './components/Home'
 import { useLocalStorage } from '@uidotdev/usehooks'
 import SignUp from './components/SignUp'
+import Verify from './components/Verify'
 
 function App() {
     const [token] = useLocalStorage('token')
@@ -15,7 +16,8 @@ function App() {
           ]
         : [
               { path: '/login', element: <Login /> },
-              { path: 'signup', element: <SignUp /> },
+              { path: '/signup', element: <SignUp /> },
+              { path: '/verify', element: <Verify /> },
               { path: '*', element: <Navigate to="/login" replace /> },
           ]
 
