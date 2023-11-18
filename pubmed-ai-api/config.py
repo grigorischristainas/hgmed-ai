@@ -19,6 +19,7 @@ MONGO_DB_USERNAME = os.environ.get('MONGO_DB_USERNAME')
 MONGO_DB_PASSWORD = os.environ.get('MONGO_DB_PASSWORD')
 MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
 MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+ALLOWED_FOR_REGISTRATION = os.environ.get('ALLOWED_FOR_REGISTRATION')
 
 # MongoDB connection
 client = MongoClient(

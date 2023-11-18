@@ -1,5 +1,5 @@
-from flask import request, jsonify, render_template
-from config import app, chatbot, users_collection, mail
+from flask import request, jsonify
+from config import app, chatbot, users_collection, ALLOWED_FOR_REGISTRATION
 from models import AbstractSummaryPostSchema, UserRegistrationSchema, PubMedResultsArgsSchema, EmailTokenVerifyArgsSchema
 from cerberus import Validator
 import time
@@ -68,6 +68,12 @@ def register():
                 "status": "ERR",
                 "message": "Invalid request body",
                 "validation": validation_errors
+            }), 422
+
+        if (not (json_request["email"] in ALLOWED_FOR_REGISTRATION)):
+            return jsonify({
+                "status": "ERR",
+                "message": "Invalid request body",
             }), 422
 
         json_request["password"] = hashlib.sha256(
