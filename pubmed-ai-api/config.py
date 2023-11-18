@@ -9,6 +9,7 @@ import os
 from flask_cors import CORS
 import logging
 from pymongo import MongoClient
+from flask_mail import Mail
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -16,6 +17,8 @@ load_dotenv()
 
 MONGO_DB_USERNAME = os.environ.get('MONGO_DB_USERNAME')
 MONGO_DB_PASSWORD = os.environ.get('MONGO_DB_PASSWORD')
+MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
+MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
 
 # MongoDB connection
 client = MongoClient(
@@ -50,3 +53,12 @@ CORS(app)
 jwt = JWTManager(app)  # initialize JWTManager
 app.config['JWT_SECRET_KEY'] = os.environ.get('JWT_SECRET_KEY')
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = datetime.timedelta(0)
+
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USERNAME'] = MAIL_USERNAME
+app.config['MAIL_PASSWORD'] = MAIL_PASSWORD
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+
+mail = Mail(app)

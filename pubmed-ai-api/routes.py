@@ -1,16 +1,58 @@
-from flask import request, jsonify
-from config import app, chatbot, users_collection
-from models import AbstractSummaryPostSchema, UserRegistrationSchema, PubMedResultsArgsSchema
+from flask import request, jsonify, render_template
+from config import app, chatbot, users_collection, mail
+from models import AbstractSummaryPostSchema, UserRegistrationSchema, PubMedResultsArgsSchema, EmailTokenVerifyArgsSchema
 from cerberus import Validator
 import time
 from random import randint
 import hashlib
 from flask_jwt_extended import create_access_token, jwt_required
-from helpers import getPubMedPapers
+from helpers import getPubMedPapers, send_verification_email, confirm_verification_token
+
+
+@app.route("/email/verify")
+def verify_email():
+    try:
+        json_args = request.args.to_dict()
+
+        request_validator = Validator(EmailTokenVerifyArgsSchema)
+        if (not request_validator.validate(json_args)):
+            validation_errors = []
+
+            for field, errors in request_validator.errors.items():
+                validation_errors.append({field: errors})
+
+            return jsonify({
+                "status": "ERR",
+                "message": "Invalid request arguments",
+                "validation": validation_errors
+            }), 422
+
+        token = json_args.get('token')
+        email = confirm_verification_token(token)
+
+        if (not email):
+            return jsonify({
+                "status": "ERR",
+                "message": "Not found",
+            }), 404
+
+        filter = {'email': email}
+        newvalues = {"$set": {'verified': True}}
+        users_collection.update_one(filter, newvalues)
+
+        return jsonify({
+            "status": "ERR",
+            "message": "Email is verified",
+        }), 200
+
+    except Exception as e:
+        return jsonify({
+            "status": "ERR",
+            "message": str(e)
+        }), 500
 
 
 @app.route("/users", methods=["POST"])
-@jwt_required()
 def register():
     try:
         json_request = request.json
@@ -33,8 +75,11 @@ def register():
         doc = users_collection.find_one(
             {"email": json_request["email"]})
 
+        json_request['verified'] = False
+
         if not doc:
             users_collection.insert_one(json_request)
+            send_verification_email(json_request["email"])
             return jsonify({
                 "status": "OK",
                 "message": "User created successfully"
@@ -49,6 +94,7 @@ def register():
                     }
                 ]
             }), 422
+
     except Exception as e:
         return jsonify({
             "status": "ERR",
@@ -77,7 +123,7 @@ def login():
     user_from_db = users_collection.find_one(
         {'email': json_request['email']})
 
-    if user_from_db:
+    if user_from_db and user_from_db.get('verified'):
         encrpted_password = hashlib.sha256(
             json_request['password'].encode("utf-8")).hexdigest()
         if encrpted_password == user_from_db['password']:

@@ -1,9 +1,15 @@
+from itsdangerous import URLSafeTimedSerializer
+from flask import render_template
+from config import mail
 import requests
 import time
 import xml.etree.ElementTree as ET
 import os
+from flask_mail import Message
 
 PUBMED_API_KEY = os.environ.get('PUBMED_API_KEY')
+ITSDNGRS_SALT = os.environ.get('ITSDNGRS_SALT')
+ITSDNGRS_SECRET_KEY = os.environ.get('ITSDNGRS_SECRET_KEY')
 
 
 def getPubMedPaperAbstract(paper_id):
@@ -100,3 +106,31 @@ def getPubMedPapers(keyword, page, max_results):
             })
 
     return items, pubmed_papers_count
+
+
+def send_verification_email(email):
+    if (email):
+        msg = Message('Verify your email address', sender='hgchatdemomedai@gmail.com',
+                      recipients=[email])
+
+        token = generate_verification_token(email)
+
+        msg.html = render_template(
+            'email_verification_template.html', href="https://hgmed-ai.netlify.app/verify?token=" + token)
+        mail.send(msg)
+
+
+def generate_verification_token(email):
+    serializer = URLSafeTimedSerializer(ITSDNGRS_SECRET_KEY)
+    return serializer.dumps(email, salt=ITSDNGRS_SALT)
+
+
+def confirm_verification_token(token, expiration=86400):
+    serializer = URLSafeTimedSerializer(ITSDNGRS_SECRET_KEY)
+    try:
+        email = serializer.loads(
+            token, salt=ITSDNGRS_SALT, max_age=expiration
+        )
+        return email
+    except Exception:
+        return False

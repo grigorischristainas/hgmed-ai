@@ -37,3 +37,10 @@ UserRegistrationSchema = {
         'maxlength': 20
     }
 }
+
+EmailTokenVerifyArgsSchema = {
+    'token': {
+        'type': 'string',
+        'required': True,
+    },
+}
