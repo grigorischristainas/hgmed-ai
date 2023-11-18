@@ -18,8 +18,8 @@ import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined'
 import Link from '@mui/material/Link'
 import * as EmailValidator from 'email-validator'
 import signupUser from '../../services/signupUser'
-import { useNavigate } from 'react-router-dom'
 import { isAxiosError } from 'axios'
+import RegistrationSuccess from './components/RegistrationSuccess'
 
 const SignUp = () => {
     const [emailError, setEmailError] = React.useState(false)
@@ -27,7 +27,8 @@ const SignUp = () => {
     const [passwordError, setPasswordError] = React.useState(false)
     const [openSnackbar, setOpenSnackbar] = React.useState(false)
     const [isSignUpLoading, setIsSignUpLoading] = React.useState(false)
-    const navigate = useNavigate()
+    const [showRegistrationSuccess, setShowRegistrationSuccess] =
+        React.useState(false)
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
@@ -55,7 +56,7 @@ const SignUp = () => {
                 await signupUser(email.toString(), password.toString())
 
                 setIsSignUpLoading(false)
-                navigate('/login')
+                setShowRegistrationSuccess(true)
             } catch (error) {
                 if (isAxiosError(error)) {
                     if (error.response?.status === 422) {
@@ -89,6 +90,10 @@ const SignUp = () => {
         }
 
         setOpenSnackbar(false)
+    }
+
+    if (showRegistrationSuccess) {
+        return <RegistrationSuccess />
     }
 
     return (
