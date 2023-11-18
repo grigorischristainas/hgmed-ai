@@ -41,7 +41,7 @@ def verify_email():
         users_collection.update_one(filter, newvalues)
 
         return jsonify({
-            "status": "ERR",
+            "status": "OK",
             "message": "Email is verified",
         }), 200
 
