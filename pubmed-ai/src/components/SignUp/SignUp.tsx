@@ -61,7 +61,7 @@ const SignUp = () => {
                 if (isAxiosError(error)) {
                     if (error.response?.status === 422) {
                         const emailValidationError =
-                            error?.response?.data?.validation.find(
+                            error?.response?.data?.validation?.find(
                                 (validation: object) => 'email' in validation
                             )
 
