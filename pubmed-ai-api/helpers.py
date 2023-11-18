@@ -110,7 +110,7 @@ def getPubMedPapers(keyword, page, max_results):
 
 def send_verification_email(email):
     if (email):
-        msg = Message('Verify your email address', sender='hgchatdemomedai@gmail.com',
+        msg = Message('Verify your email address', sender=('HgMed AI', 'hgchatdemomedai@gmail.com'),
                       recipients=[email])
 
         token = generate_verification_token(email)
