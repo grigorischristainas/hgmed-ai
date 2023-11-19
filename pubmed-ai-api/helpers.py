@@ -125,7 +125,9 @@ def generate_verification_token(email):
     return serializer.dumps(email, salt=ITSDNGRS_SALT)
 
 
-def confirm_verification_token(token, expiration=86400):
+def confirm_verification_token(token):
+    expiration = 365 * 24 * 60 * 60
+
     serializer = URLSafeTimedSerializer(ITSDNGRS_SECRET_KEY)
     try:
         email = serializer.loads(
