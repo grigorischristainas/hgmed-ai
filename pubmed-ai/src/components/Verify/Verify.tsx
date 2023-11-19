@@ -25,7 +25,7 @@ const Verify = () => {
     if (!token || isError) {
         return (
             <StyledRootContainer>
-                <img src={NotFound} alt="notfound" />
+                <img src={NotFound} alt="notfound" width="260px" />
                 <StyledPageNotFoundTitle variant="h4">
                     Page not found
                 </StyledPageNotFoundTitle>
@@ -51,7 +51,7 @@ const Verify = () => {
 
     return (
         <StyledRootContainer>
-            <img src={VerificationSuccess} alt="notfound" width="200px" />
+            <img src={VerificationSuccess} alt="success" width="200px" />
             <StyledTitle variant="h4">Thank you</StyledTitle>
             <StyledDescription variant="subtitle1" align="center">
                 Your email address has been successfully verified and you can
