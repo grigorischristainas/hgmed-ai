@@ -27,3 +27,7 @@ export const StyledDescription = styled(Typography)({
     color: '#929292',
     textAlign: 'center',
 })
+
+export const StyledTitle = styled(Typography)({
+    fontWeight: 600,
+})

@@ -15,6 +15,7 @@ const useEmailVerify = ({
         queryFn: () => verifyEmail(token),
         staleTime: Infinity,
         enabled: enabled,
+        retry: false,
     })
 }
 

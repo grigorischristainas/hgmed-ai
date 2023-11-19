@@ -5,6 +5,7 @@ import {
     StyledRootContainer,
     StyledDescription,
     StyledPageNotFoundTitle,
+    StyledTitle,
 } from './VerifyStyles'
 import NotFound from '../../assets/notFound.png'
 import VerificationSuccess from '../../assets/verificationSuccess.png'
@@ -51,8 +52,10 @@ const Verify = () => {
     return (
         <StyledRootContainer>
             <img src={VerificationSuccess} alt="notfound" width="200px" />
+            <StyledTitle variant="h4">Thank you</StyledTitle>
             <StyledDescription variant="subtitle1" align="center">
-                Your email address has been successfully verified
+                Your email address has been successfully verified and you can
+                now login using your personal information
             </StyledDescription>
             <Link to="/login">
                 <StyledButton variant="contained" data-testid="home-button">
