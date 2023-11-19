@@ -1,5 +1,5 @@
 from flask import request, jsonify
-from config import app, chatbot, users_collection, ALLOWED_FOR_REGISTRATION
+from config import app, users_collection, ALLOWED_FOR_REGISTRATION, cookies
 from models import AbstractSummaryPostSchema, UserRegistrationSchema, PubMedResultsArgsSchema, EmailTokenVerifyArgsSchema
 from cerberus import Validator
 import time
@@ -7,6 +7,7 @@ from random import randint
 import hashlib
 from flask_jwt_extended import create_access_token, jwt_required
 from helpers import getPubMedPapers, send_verification_email, confirm_verification_token
+from hugchat import hugchat
 
 
 @app.route("/email/verify")
@@ -228,6 +229,7 @@ def get_huggingchat_summary():
             'Respond only in the following format with no extra text: ' \
             '# <intervention (or comparison of interventions)> / <disease> / <effectiveness of the intervention>:'
 
+        chatbot = hugchat.ChatBot(cookies=cookies)
         query_result = chatbot.query(baseQuery + prompt)
 
         split_query = str(query_result).split("#")[1].split(' / ')

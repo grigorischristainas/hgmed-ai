@@ -1,9 +1,7 @@
 import datetime
 from flask import Flask
 from flask_jwt_extended import JWTManager
-from hugchat import hugchat
 from hugchat.login import Login
-from pymed import PubMed
 from dotenv import load_dotenv
 import os
 from flask_cors import CORS
@@ -45,8 +43,6 @@ else:
         "email": hugging_chat_email,
         "cookie": cookies
     })
-
-chatbot = hugchat.ChatBot(cookies=cookies)
 
 app = Flask(__name__)
 CORS(app)
