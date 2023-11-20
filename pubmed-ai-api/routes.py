@@ -227,7 +227,7 @@ def get_huggingchat_summary():
         baseQuery = 'Please identify for the following research the intervention ' \
             '(or comparison of interventions), the disease and the effectiveness of the intervention. ' \
             'Respond only in the following format with no extra text: ' \
-            '# <intervention (or comparison of interventions)> / <disease> / <effectiveness of the intervention>:'
+            '# <intervention (or comparison of interventions)> / <disease> / <effectiveness of the intervention>: '
 
         chatbot = hugchat.ChatBot(cookies=cookies)
         query_result = chatbot.query(baseQuery + prompt)
