@@ -17,6 +17,7 @@ const PaperCardContainer = ({ keyword }: PaperCardContainerProps) => {
 
     const isLoading = status === 'pending'
     const isError = status === 'error'
+    const noData = data?.pages[0]._items.length === 0
 
     const { endOfCardsRef } = useScrollToEndOfCards({
         renderedResultsLength: data?.pages.length || 0,
@@ -26,14 +27,18 @@ const PaperCardContainer = ({ keyword }: PaperCardContainerProps) => {
         <StyledRootContainer>
             {isLoading && <CircularProgress size={24} />}
             {isError && <div>Something went wrong. Please try again</div>}
-            {data?.pages.map((page) => (
-                <React.Fragment key={page._meta.page}>
-                    {page._items.map((item) => (
-                        <PaperCard pubMedResult={item} key={item.id} />
-                    ))}
-                </React.Fragment>
-            ))}
-            {data && (
+            {noData && (
+                <div>No results found, please try a different keyword</div>
+            )}
+            {!noData &&
+                data?.pages.map((page) => (
+                    <React.Fragment key={page._meta.page}>
+                        {page._items.map((item) => (
+                            <PaperCard pubMedResult={item} key={item.id} />
+                        ))}
+                    </React.Fragment>
+                ))}
+            {!noData && data && (
                 <StyledMoreButton
                     variant="contained"
                     onClick={() => fetchNextPage()}
@@ -43,7 +48,6 @@ const PaperCardContainer = ({ keyword }: PaperCardContainerProps) => {
                     Load more
                 </StyledMoreButton>
             )}
-
             <div ref={endOfCardsRef}></div>
         </StyledRootContainer>
     )

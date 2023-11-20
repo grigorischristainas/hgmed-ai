@@ -15,15 +15,17 @@ export const StyledButtonContainer = styled('div')({
     justifyContent: 'center',
 })
 
-export const StyledButton = styled(LoadingButton)({
-    backgroundColor: '#444444',
+export const StyledButton = styled(LoadingButton)(({ disabled }) => ({
+    ...(!disabled && { backgroundColor: '#444444' }),
     '&:hover': {
-        backgroundColor: '#29171b',
+        ...(!disabled && {
+            backgroundColor: '#29171b',
+        }),
     },
     marginTop: 20,
     width: 200,
     height: 50,
-})
+}))
 
 export const StyledTitle = styled(Typography)({
     fontWeight: 600,

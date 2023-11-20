@@ -63,7 +63,7 @@ const Login = () => {
                 setOpenSnackbar(true)
             }
         }
-
+        setIsLoginLoading(false)
         setIsSubmitButtonDisabled(false)
     }
 

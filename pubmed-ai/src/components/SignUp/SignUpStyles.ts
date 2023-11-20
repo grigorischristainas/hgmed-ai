@@ -15,15 +15,17 @@ export const StyledButtonContainer = styled('div')({
     justifyContent: 'center',
 })
 
-export const StyledButton = styled(LoadingButton)({
-    backgroundColor: '#444444',
-    '&:hover': {
-        backgroundColor: '#29171b',
-    },
+export const StyledButton = styled(LoadingButton)(({ loading }) => ({
+    ...(!loading && {
+        backgroundColor: '#444444',
+        '&:hover': {
+            backgroundColor: '#29171b',
+        },
+    }),
     marginTop: 20,
     width: 200,
     height: 50,
-})
+}))
 
 export const StyledTitle = styled(Typography)({
     fontWeight: 600,

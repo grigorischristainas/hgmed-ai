@@ -25,9 +25,11 @@ export const StyledButtonContainer = styled('div')({
     marginTop: 20,
 })
 
-export const StyledButton = styled(Button)({
-    backgroundColor: '#444444',
-    '&:hover': {
-        backgroundColor: '#29171b',
-    },
-})
+export const StyledButton = styled(Button)(({ disabled }) => ({
+    ...(!disabled && {
+        backgroundColor: '#444444',
+        '&:hover': {
+            backgroundColor: '#29171b',
+        },
+    }),
+}))
