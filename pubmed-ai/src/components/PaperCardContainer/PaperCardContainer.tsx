@@ -26,7 +26,12 @@ const PaperCardContainer = ({ keyword }: PaperCardContainerProps) => {
     return (
         <StyledRootContainer>
             {isLoading && <CircularProgress size={24} />}
-            {isError && <div>Something went wrong. Please try again</div>}
+            {isError && (
+                <div>
+                    There was an error retrieving results from PubMed. Please
+                    try again later.
+                </div>
+            )}
             {noData && (
                 <div>No results found, please try a different keyword</div>
             )}
