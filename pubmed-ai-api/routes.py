@@ -241,7 +241,6 @@ def get_huggingchat_summary():
         # Handle invalid responses by refetching result
         max_retries = 5
         if isResultQueryInvalid(query_result):
-            print("I AM HEREE ", query_result.msg_status, query_result.error)
             for i in range(0, max_retries):
                 time.sleep(1)
                 query_result = chatbot.query(query)
