@@ -6,7 +6,7 @@ import time
 from random import randint
 import hashlib
 from flask_jwt_extended import create_access_token, jwt_required
-from helpers import getPubMedPapers, send_verification_email, confirm_verification_token
+from helpers import getPubMedPapers, send_verification_email, confirm_verification_token, isResultQueryInvalid
 from hugchat import hugchat
 
 
@@ -231,6 +231,22 @@ def get_huggingchat_summary():
 
         chatbot = hugchat.ChatBot(cookies=cookies)
         query_result = chatbot.query(baseQuery + prompt)
+
+        # Handle invalid responses by refetching result
+        max_retries = 5
+        if isResultQueryInvalid(query_result):
+            for i in range(0, max_retries):
+                time.sleep(1)
+                query_result = chatbot.query(baseQuery + prompt)
+                if not isResultQueryInvalid(query_result):
+                    break
+
+        # Return an error if result is still invalid
+        if isResultQueryInvalid(query_result):
+            return jsonify({
+                "status": "ERR",
+                "message": str(e)
+            }), 500
 
         split_query = str(query_result).split("#")[1].split(' / ')
         intervention = split_query[0].strip()

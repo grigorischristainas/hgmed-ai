@@ -136,3 +136,10 @@ def confirm_verification_token(token):
         return email
     except Exception:
         return False
+
+
+def isResultQueryInvalid(query):
+    if ('Please identify for the following research the intervention' in str(query)):
+        return True
+
+    return False
