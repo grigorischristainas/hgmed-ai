@@ -229,15 +229,22 @@ def get_huggingchat_summary():
             'Respond only in the following format with no extra text: ' \
             '# <intervention (or comparison of interventions)> / <disease> / <effectiveness of the intervention>: '
 
+        queryContext = '[Context]: ' + prompt
+        queryBase = '[Query]: Respond only in the following format with no extra text: ' \
+                    '# <intervention (or comparison of interventions)> / <disease> / <effectiveness of the intervention>: '
+
+        query = queryContext + queryBase
+
         chatbot = hugchat.ChatBot(cookies=cookies)
-        query_result = chatbot.query(baseQuery + prompt)
+        query_result = chatbot.query(query)
 
         # Handle invalid responses by refetching result
         max_retries = 5
         if isResultQueryInvalid(query_result):
+            print("I AM HEREE ", query_result.msg_status, query_result.error)
             for i in range(0, max_retries):
                 time.sleep(1)
-                query_result = chatbot.query(baseQuery + prompt)
+                query_result = chatbot.query(query)
                 if not isResultQueryInvalid(query_result):
                     break
 

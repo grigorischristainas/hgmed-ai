@@ -139,7 +139,7 @@ def confirm_verification_token(token):
 
 
 def isResultQueryInvalid(query):
-    if ('Please identify for the following research the intervention' in str(query)):
+    if ('<disease>' in str(query)):
         return True
 
     return False
