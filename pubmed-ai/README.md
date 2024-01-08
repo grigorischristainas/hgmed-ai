@@ -2,6 +2,14 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+Please navigate into the project directory and run
+
+```
+npm install
+```
+
+Tested with NodeJS version v16.20.0.
+
 ## Available Scripts
 
 In the project directory, you can run:
