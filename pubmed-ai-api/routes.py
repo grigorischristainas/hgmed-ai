@@ -218,11 +218,6 @@ def get_huggingchat_summary():
 
         prompt = request.json['prompt']
 
-        baseQuery = 'Please identify for the following research the intervention ' \
-            '(or comparison of interventions), the disease and the effectiveness of the intervention. ' \
-            'Respond only in the following format with no extra text: ' \
-            '# <intervention (or comparison of interventions)> / <disease> / <effectiveness of the intervention>: '
-
         queryContext = '[Context]: ' + prompt
         queryBase = '[Query]: Respond only in the following format with no extra text: ' \
                     '# <intervention (or comparison of interventions)> / <disease> / <effectiveness of the intervention>: '
