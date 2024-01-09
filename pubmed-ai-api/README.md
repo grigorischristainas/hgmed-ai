@@ -1,8 +1,8 @@
 # Getting Started
 
-This is the Flask based pubmed AI API. It utilizes the following APIs:
+This is the Flask based hugmed-ai API. It utilizes the following APIs:
 
-1. PubMED API
+1. PubMed API
 2. HuggingChat API
 
 Currently, the free HuggingChat API is supported, but ChatGPT API may also be added in the future.
