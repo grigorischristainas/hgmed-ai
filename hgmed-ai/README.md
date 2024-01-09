@@ -8,7 +8,7 @@ Please navigate into the project directory and run
 npm install
 ```
 
-Tested with NodeJS version v16.20.0.
+Tested with NodeJS version v16.20.0. For local development, please modify the `config.ts` file in the `lib` directory and set the API_URL accordingly.
 
 ## Available Scripts
 
